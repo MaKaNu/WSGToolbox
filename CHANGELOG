@@ -1,0 +1,28 @@
+# [v0.1.0-BETA](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/tags/v0.1.0-BETA "Initial") (2019-04-02)
+
+### Bug Fixes
+Initial Release no fixed bugs.
+
+### Features
+#### Added Class
+* wsg50
+
+#### Added Functions
+* ack
+* fast_stop
+* get_acc
+* get_force
+* get_Softlimits
+* grasp
+* loop
+* overdrive (in progress) DON'T USE
+* position
+* reference
+* reset_softlimits
+* set_acc
+* set_force (in progress) DON'T USE
+* set_softlimits
+* stop
+
+###Known Issues
+* Problem with setting Gripper Strength. Could set to high or to low.
