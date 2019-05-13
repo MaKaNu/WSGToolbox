@@ -17,6 +17,7 @@ The Class includes the following User-Functions:
 * overdrive (in progress) DON'T USE
 * position
 * reference
+* release
 * reset_softlimits
 * set_acc
 * set_force (in progress) DON'T USE
