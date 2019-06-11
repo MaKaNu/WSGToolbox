@@ -77,7 +77,7 @@ classdef wsg50 < handle
                               'Error-Code #00002'))
                     end
                 end
-                %Receive one byte                
+                %Receive one byte 
                 Obj.Data_R = fread(Obj.TCPIP, 1, 'uint8');
                 %Transform Data
                 Obj.Data_R = dec2hex(Obj.Data_R);
@@ -302,6 +302,9 @@ classdef wsg50 < handle
                         end
                     case 'STRING'
                     case 'BITVEC'
+                        hex_str = reshape(flipud(Obj.payload_R)',1,2*size(Obj.payload_R,1));
+                        hex_str = hex_str(start_idx:end_idx);
+                        Obj.status.(symbol{i})= hexToBinaryVector(hex_str,4*TypeLength{i});             
                     case 'ENUM'
                     otherwise
                 end
@@ -313,23 +316,35 @@ classdef wsg50 < handle
            repeat_flag = true;
            while repeat_flag
                 ReadCommand(Obj)
-                if Obj.ID_R == Obj.ID
-                    if strcmp(Obj.status_R,['1A';'00'])
-                        repeat_flag = true;
-                        if Obj.verbose
-                        decode_status(Obj)
-                        end
-                    elseif strcmp(Obj.status_R,['00';'00'])
-                        repeat_flag = false;
-                        if Obj.verbose
+                switch Obj.ID_R 
+                    case Obj.ID
+                        if strcmp(Obj.status_R,['1A';'00'])
+                            repeat_flag = true;
+                            if Obj.verbose
+                            decode_status(Obj)
+                            end
+                        elseif strcmp(Obj.status_R,['00';'00'])
+                            repeat_flag = false;
+                            if Obj.verbose
+                                decode_status(Obj)
+                            end
+                        else
+                            repeat_flag = false;
                             decode_status(Obj)
                         end
-                    else
+                    case '40'
+                        decode_payload(Obj,{'BITVEC'},{8},1,{'SSTATE'})
+                        if Obj.verbose
+                            disp(Obj.status.SSTATE)
+                        end
+%                         if Obj.status.SSTATE(32)
+%                             repeat_flag = false;
+%                         end
+                    otherwise
+                        warning('THIS MESSAGE IS JUST FOR DEBUGING!')
                         repeat_flag = false;
-                        decode_status(Obj)
-                    end
                 end
-            end 
+           end
         end
     end
     
