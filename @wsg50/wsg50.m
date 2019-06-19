@@ -25,6 +25,7 @@ classdef wsg50 < handle
         PORT
         TCPIP
         verbose
+        debug
         status = struct('OVERDRIVE',false,'LIMITS',false);
     end
     
@@ -135,6 +136,9 @@ classdef wsg50 < handle
                     switch i
                         case 1
                             Obj.ID_R = Obj.Data_R;
+                            if Obj.debug
+                                disp(Obj.ID_R)
+                            end
                         case 2
                             Obj.payloadlength_R = Obj.Data_R;
                         case 3
@@ -342,6 +346,7 @@ classdef wsg50 < handle
             Obj.IP = 'localhost';
             Obj.PORT = 1000;
             Obj.verbose = false;
+            Obj.debug = false;
             
             n=1;
             while n <= length(varargin)
@@ -354,6 +359,8 @@ classdef wsg50 < handle
                             Obj.PORT = varargin{n+1};
                         case 'verbose'
                             Obj.verbose = true;
+                        case 'debug'
+                            Obj.debug = true;
                     end
                 end
                 n = n +1;
