@@ -20,7 +20,6 @@ function get_softlimits(Obj)
         Obj.Command = [];                           %no Payload
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
         decode_payload(Obj,Type,TypeLength,Num_CMD,symbol);
@@ -28,7 +27,6 @@ function get_softlimits(Obj)
             disp(strcat('LIMIT MINUS:', num2str(Obj.status.LIMIT_MINUS),' mm'))
             disp(strcat('LIMIT PLUS:', num2str(Obj.status.LIMIT_PLUS),' mm'))
         end
-        Disconnect(Obj);
     end
 end
             

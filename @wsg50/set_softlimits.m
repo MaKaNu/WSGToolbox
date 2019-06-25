@@ -47,10 +47,8 @@ function set_softlimits(Obj,minus_limit,plus_limit)
                        plus1; plus2; plus3; plus4];         %plus_limit in Float Little Endian
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
         Obj.status.LIMITS = true;
     end
 end

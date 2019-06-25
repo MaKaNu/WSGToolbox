@@ -26,9 +26,7 @@ function set_force(Obj,force)
         Obj.Command = [force1; force2; force3; force4];     %Force in Float Little Endian
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
     end
 end

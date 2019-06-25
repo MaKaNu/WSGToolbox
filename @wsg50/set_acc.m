@@ -22,10 +22,8 @@ function set_acc(Obj,acc)
         Obj.Command = [acc1; acc2; acc3; acc4];     %Acceleration in Float Little Endian
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
     end
 end
             

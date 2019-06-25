@@ -6,6 +6,7 @@ classdef wsg50 < handle
     end
     
     properties (Access = private)
+        autoopen
         ID
         Payload
         Command
@@ -25,6 +26,7 @@ classdef wsg50 < handle
         PORT
         TCPIP
         verbose
+        debug
         status = struct('OVERDRIVE',false,'LIMITS',false);
     end
     
@@ -61,7 +63,7 @@ classdef wsg50 < handle
                 fwrite(Obj.TCPIP, uint8(Obj.Data), 'uint8');
             else
                 error(strcat('ERROR: Connection is not open. ',...
-                             'Error-Code #00001'))
+                             ' Error-Code #00001'))
             end
         end
         
@@ -88,14 +90,6 @@ classdef wsg50 < handle
                 error(strcat('ERROR: Connection is not open. ',...
                              'Error-Code #00002'))
             end
-        end
-        
-        %Disconnect
-        function Disconnect(Obj)
-            Obj.Data = [Obj.preambel; '07'; '00'; '00'; '00'];
-            Obj.Data = hex2dec(Obj.Data);
-            fwrite(Obj.TCPIP, uint8(Obj.Data), 'uint8');
-            fclose(Obj.TCPIP);
         end
         
         %Read a single command
@@ -135,6 +129,9 @@ classdef wsg50 < handle
                     switch i
                         case 1
                             Obj.ID_R = Obj.Data_R;
+                            if Obj.debug
+                                disp(Obj.ID_R)
+                            end
                         case 2
                             Obj.payloadlength_R = Obj.Data_R;
                         case 3
@@ -181,25 +178,25 @@ classdef wsg50 < handle
                     disp('Kein Fehler aufgetreten,Befehl erfolgreich.')
                 case ['01'; '00']
                     disp('E_NOT_AVAILABLE')
-                    disp('Funktion oder Daten nicht verfügbar.')
+                    disp('Funktion oder Daten nicht verfï¿½gbar.')
                 case ['02'; '00']
                     disp('E_NO_SENSOR')
                     disp('Kein Messumformer angeschlossen.')
                 case['03'; '00']
                     disp('E_NOT_INITIALIZED')
-                    disp('Gerät nicht initialisiert.')
+                    disp('Gerï¿½t nicht initialisiert.')
                 case ['04'; '00']
                     disp('E_ALREADY_RUNNING')
-                    disp('Datenerfassung wird bereits ausgeführt.')
+                    disp('Datenerfassung wird bereits ausgefï¿½hrt.')
                 case ['05'; '00']
                     disp('E_FEATURE_NOT_SUPPORTED')
-                    disp('Die Funktion ist nicht verfügbar.')
+                    disp('Die Funktion ist nicht verfï¿½gbar.')
                 case ['06'; '00']
                     disp('E_INCONSISTENT_DATA')
                     disp('Einer oder mehrere Parameter sind inkonsistent.')
                 case ['07'; '00']
                     disp('E_TIMEOUT')
-                    disp('Zeitüberschreitung.')
+                    disp('Zeitï¿½berschreitung.')
                 case ['08'; '00']
                     disp('E_READ_ERROR')
                     disp('Fehler beim Lesen von Daten.')
@@ -208,16 +205,16 @@ classdef wsg50 < handle
                     disp('Fehler beim Schreiben von Daten.')
                 case['0A'; '00']
                     disp('E_INSUFFICIENT_RESOURCES')
-                    disp('Nicht genügend Speicher vorhanden.')
+                    disp('Nicht genï¿½gend Speicher vorhanden.')
                 case ['0B'; '00']
                     disp('E_CHECKSUM_ERROR')
-                    disp('Prüfsummenfehler.')
+                    disp('Prï¿½fsummenfehler.')
                 case ['0C'; '00']
                     disp('E_NO_PARAM_EXPECTED')
-                    disp('Parameter übergeben, obwohl keiner erwartet.')
+                    disp('Parameter ï¿½bergeben, obwohl keiner erwartet.')
                 case ['0D'; '00']
                     disp('E_NOT_ENOUGH_PARAMS')
-                    disp('Zu wenige Parameter für den Befehl übergeben.')
+                    disp('Zu wenige Parameter fï¿½r den Befehl ï¿½bergeben.')
                 case ['0E'; '00']
                     disp('E_CMD_UNKNOWN')
                     disp('Unbekannter Befehl.')
@@ -229,40 +226,40 @@ classdef wsg50 < handle
                     disp('Zugriff verweigert.')
                 case ['11'; '00']
                     disp('E_ALREADY_OPEN')
-                    disp('Schnittstelle ist bereits geöffnet.')
+                    disp('Schnittstelle ist bereits geï¿½ffnet.')
                 case ['12'; '00']
                     disp('E_CMD_FAILED')
-                    disp('Fehler während der Ausführung eines Befehls.')
+                    disp('Fehler wï¿½hrend der Ausfï¿½hrung eines Befehls.')
                 case ['13'; '00']
                     disp('E_CMD_ABORTED')
-                    disp('Befehlsausführung vom Benutzer abgebrochen.')
+                    disp('Befehlsausfï¿½hrung vom Benutzer abgebrochen.')
                 case ['14'; '00']
                     disp('E_INVALID_HANDLE')
-                    disp('Ungültiges Handle.')
+                    disp('Ungï¿½ltiges Handle.')
                 case ['15'; '00']
                     disp('E_NOT_FOUND')
-                    disp('Gerät oder Datei nicht gefunden.')
+                    disp('Gerï¿½t oder Datei nicht gefunden.')
                 case ['16'; '00']
                     disp('E_NOT_OPEN')
-                    disp('Gerät oder Datei nicht geöffnet.')
+                    disp('Gerï¿½t oder Datei nicht geï¿½ffnet.')
                 case ['17'; '00']
                     disp('E_IO_ERROR')
                     disp('Ein-/Ausgabefehler.')
                 case ['18'; '00']
                     disp('E_INVALID_PARAMETER')
-                    disp('Ungültiger Parameter.')
+                    disp('Ungï¿½ltiger Parameter.')
                 case ['19'; '00']
                     disp('E_INDEX_OUT_OF_BOUNDS')
-                    disp('Index außerhalb des zulässigen Bereichs.')
+                    disp('Index auï¿½erhalb des zulï¿½ssigen Bereichs.')
                 case ['1A'; '00']
                     disp('E_CMD_PENDING')
                     disp(strcat('Der Befehl wurde noch nicht',...
-                                ' vollständig ausgeführt.'))
-                    disp(strcat('Eine Rückmeldung mit Statuscode folgt',...
-                                ' nach Ausführung des Befehls.'))
+                                ' vollstï¿½ndig ausgefï¿½hrt.'))
+                    disp(strcat('Eine Rï¿½ckmeldung mit Statuscode folgt',...
+                                ' nach Ausfï¿½hrung des Befehls.'))
                 case ['1B'; '00']
                     disp('E_OVERRUN')
-                    disp('Datenüberlauf.')
+                    disp('Datenï¿½berlauf.')
                 case ['1C'; '00']
                     disp('E_RANGE_ERROR')
                     disp('Bereichsfehler.')
@@ -332,8 +329,11 @@ classdef wsg50 < handle
                             repeat_flag = false;
                             decode_status(Obj)
                         end
-                    case '40'
-                        decode_payload(Obj,{'BITVEC'},{8},1,{'SSTATE'})
+                    elseif strcmp(Obj.status_R,['00';'00'])
+                        if Obj.TCPIP.BytesAvailable>0
+                           flushinput(Obj.TCPIP) 
+                        end
+                        repeat_flag = false;
                         if Obj.verbose
                             disp(Obj.status.SSTATE)
                         end
@@ -357,6 +357,9 @@ classdef wsg50 < handle
             Obj.IP = 'localhost';
             Obj.PORT = 1000;
             Obj.verbose = false;
+            Obj.debug = false;
+            Obj.autoopen = false;
+            
             
             n=1;
             while n <= length(varargin)
@@ -369,12 +372,18 @@ classdef wsg50 < handle
                             Obj.PORT = varargin{n+1};
                         case 'verbose'
                             Obj.verbose = true;
-                    end
+                        case 'debug'
+                            Obj.debug = true;
+                        case 'autoopen'
+                            Obj.autoopen = true;
+                        end
                 end
                 n = n +1;
             end
             
             ipobject(Obj);
+            Obj.connect();
+            disp('Connection is open!')
         end
         
         %DECONSTRUCTER
