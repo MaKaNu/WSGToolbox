@@ -96,6 +96,9 @@ classdef wsg50 < handle
             Obj.Data = [Obj.preambel; '07'; '00'; '00'; '00'];
             Obj.Data = hex2dec(Obj.Data);
             fwrite(Obj.TCPIP, uint8(Obj.Data), 'uint8');
+            if Obj.TCPIP.BytesAvailable>0
+               flushinput(Obj.TCPIP) 
+            end
             fclose(Obj.TCPIP);
         end
         
@@ -324,6 +327,9 @@ classdef wsg50 < handle
                         decode_status(Obj)
                         end
                     elseif strcmp(Obj.status_R,['00';'00'])
+                        if Obj.TCPIP.BytesAvailable>0
+                           flushinput(Obj.TCPIP) 
+                        end
                         repeat_flag = false;
                         if Obj.verbose
                             decode_status(Obj)

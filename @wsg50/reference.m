@@ -20,7 +20,7 @@ function reference(Obj,direction)
         fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
+%         Disconnect(Obj);
     end
 
 end
