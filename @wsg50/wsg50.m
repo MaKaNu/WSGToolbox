@@ -6,6 +6,7 @@ classdef wsg50 < handle
     end
     
     properties (Access = private)
+        autoopen
         ID
         Payload
         Command
@@ -62,7 +63,7 @@ classdef wsg50 < handle
                 fwrite(Obj.TCPIP, uint8(Obj.Data), 'uint8');
             else
                 error(strcat('ERROR: Connection is not open. ',...
-                             'Error-Code #00001'))
+                             ' Error-Code #00001'))
             end
         end
         
@@ -89,17 +90,6 @@ classdef wsg50 < handle
                 error(strcat('ERROR: Connection is not open. ',...
                              'Error-Code #00002'))
             end
-        end
-        
-        %Disconnect
-        function Disconnect(Obj)
-            Obj.Data = [Obj.preambel; '07'; '00'; '00'; '00'];
-            Obj.Data = hex2dec(Obj.Data);
-            fwrite(Obj.TCPIP, uint8(Obj.Data), 'uint8');
-            if Obj.TCPIP.BytesAvailable>0
-               flushinput(Obj.TCPIP) 
-            end
-            fclose(Obj.TCPIP);
         end
         
         %Read a single command
@@ -353,6 +343,8 @@ classdef wsg50 < handle
             Obj.PORT = 1000;
             Obj.verbose = false;
             Obj.debug = false;
+            Obj.autoopen = false;
+            
             
             n=1;
             while n <= length(varargin)
@@ -367,12 +359,16 @@ classdef wsg50 < handle
                             Obj.verbose = true;
                         case 'debug'
                             Obj.debug = true;
-                    end
+                        case 'autoopen'
+                            Obj.autoopen = true;
+                        end
                 end
                 n = n +1;
             end
             
             ipobject(Obj);
+            Obj.connect();
+            disp('Connection is open!')
         end
         
         %DECONSTRUCTER

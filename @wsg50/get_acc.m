@@ -16,14 +16,12 @@ function get_acc(Obj)
         Obj.Command = [];                           %no Payload
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
         decode_payload(Obj,Type,TypeLength,Num_CMD,symbol);
         if Obj.verbose
             disp(strcat('Acceleration:', num2str(Obj.status.ACC),' mm/s^2'))
         end
-        Disconnect(Obj);
     end
 end
             

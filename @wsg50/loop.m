@@ -42,10 +42,8 @@ function loop(Obj,testdata)
         Obj.Command = c;  
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
         disp(Obj.payload_R)
     end
 end

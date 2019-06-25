@@ -17,14 +17,12 @@ function get_force(Obj)
         Obj.Command = [];                           %no Payload
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
         decode_payload(Obj,Type,TypeLength,Num_CMD,symbol);
         if Obj.verbose
             disp(strcat('Force:', num2str(Obj.status.FORCE),' N'))
         end
-        Disconnect(Obj);
     end
 end
             

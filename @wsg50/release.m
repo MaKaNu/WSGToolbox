@@ -59,10 +59,8 @@ function release(Obj,width,speed)
                        spd1; spd2; spd3; spd4];     %Speed in Float Little Endian
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
     end
 end
             

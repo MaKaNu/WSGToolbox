@@ -11,10 +11,8 @@ function reset_softlimits(Obj)
         Obj.Command = [];                           %no Payload
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
         Obj.status.LIMITS = false;
     end
 end

@@ -17,10 +17,8 @@ function reference(Obj,direction)
         Obj.Command = cmd;                  %Speed in Enum Little Endian
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-%         Disconnect(Obj);
     end
 
 end

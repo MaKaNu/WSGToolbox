@@ -24,9 +24,7 @@ function overdrive(Obj,bool)
         Obj.Command = binaryVectorToHex(flag_vec);          %Force in Float Little Endian
 
         DataEncode(Obj);
-        fopen(Obj.TCPIP);
         DataSend(Obj);
         command_complete(Obj);
-        Disconnect(Obj);
     end
 end
