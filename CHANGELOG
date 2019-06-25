@@ -1,3 +1,21 @@
+# [v0.2.0-BETA](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/tags/v0.2.0-BETA) (2019-06-25)
+
+### Bug Fixes
+* 'ERROR: No Data Available. Error-Code #00002' if calling severall function directly
+
+### Features
+#### Added Functions
+* connect
+* disconnect
+
+### Removed Features
+* connection build in function
+* disconnect after every command
+
+###Known Issues
+* Problem with setting Gripper Strength. Could set to high or to low.
+
+
 # [v0.1.0-BETA](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/tags/v0.1.0-BETA "Initial") (2019-04-02)
 
 ### Bug Fixes
