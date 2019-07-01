@@ -214,7 +214,7 @@ classdef wsg50 < handle
                     disp('Parameter ï¿½bergeben, obwohl keiner erwartet.')
                 case ['0D'; '00']
                     disp('E_NOT_ENOUGH_PARAMS')
-                    disp('Zu wenige Parameter fï¿½r den Befehl ï¿½bergeben.')
+                    disp('Zu wenige Parameter für den Befehl übergeben.')
                 case ['0E'; '00']
                     disp('E_CMD_UNKNOWN')
                     disp('Unbekannter Befehl.')
@@ -226,10 +226,10 @@ classdef wsg50 < handle
                     disp('Zugriff verweigert.')
                 case ['11'; '00']
                     disp('E_ALREADY_OPEN')
-                    disp('Schnittstelle ist bereits geï¿½ffnet.')
+                    disp('Schnittstelle ist bereits geöffnet.')
                 case ['12'; '00']
                     disp('E_CMD_FAILED')
-                    disp('Fehler wï¿½hrend der Ausfï¿½hrung eines Befehls.')
+                    disp('Fehler während der Ausführung eines Befehls.')
                 case ['13'; '00']
                     disp('E_CMD_ABORTED')
                     disp('Befehlsausfï¿½hrung vom Benutzer abgebrochen.')
@@ -325,21 +325,13 @@ classdef wsg50 < handle
                             if Obj.verbose
                                 decode_status(Obj)
                             end
+                            if Obj.TCPIP.BytesAvailable>0
+                                flushinput(Obj.TCPIP) 
+                            end
                         else
                             repeat_flag = false;
                             decode_status(Obj)
                         end
-                    elseif strcmp(Obj.status_R,['00';'00'])
-                        if Obj.TCPIP.BytesAvailable>0
-                           flushinput(Obj.TCPIP) 
-                        end
-                        repeat_flag = false;
-                        if Obj.verbose
-                            disp(Obj.status.SSTATE)
-                        end
-%                         if Obj.status.SSTATE(32)
-%                             repeat_flag = false;
-%                         end
                     otherwise
                         warning('THIS MESSAGE IS JUST FOR DEBUGING!')
                         repeat_flag = false;
@@ -382,8 +374,10 @@ classdef wsg50 < handle
             end
             
             ipobject(Obj);
-            Obj.connect();
-            disp('Connection is open!')
+            if Obj.autoopen
+                Obj.connect();
+                disp('Connection is open!')
+            end
         end
         
         %DECONSTRUCTER
