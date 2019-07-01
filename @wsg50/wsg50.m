@@ -178,25 +178,25 @@ classdef wsg50 < handle
                     disp('Kein Fehler aufgetreten,Befehl erfolgreich.')
                 case ['01'; '00']
                     disp('E_NOT_AVAILABLE')
-                    disp('Funktion oder Daten nicht verfï¿½gbar.')
+                    disp('Funktion oder Daten nicht verfuegbar.')
                 case ['02'; '00']
                     disp('E_NO_SENSOR')
                     disp('Kein Messumformer angeschlossen.')
                 case['03'; '00']
                     disp('E_NOT_INITIALIZED')
-                    disp('Gerï¿½t nicht initialisiert.')
+                    disp('Geraet nicht initialisiert.')
                 case ['04'; '00']
                     disp('E_ALREADY_RUNNING')
-                    disp('Datenerfassung wird bereits ausgefï¿½hrt.')
+                    disp('Datenerfassung wird bereits ausgefuehrt.')
                 case ['05'; '00']
                     disp('E_FEATURE_NOT_SUPPORTED')
-                    disp('Die Funktion ist nicht verfï¿½gbar.')
+                    disp('Die Funktion ist nicht verfuegbar.')
                 case ['06'; '00']
                     disp('E_INCONSISTENT_DATA')
                     disp('Einer oder mehrere Parameter sind inkonsistent.')
                 case ['07'; '00']
                     disp('E_TIMEOUT')
-                    disp('Zeitï¿½berschreitung.')
+                    disp('Zeitueberschreitung.')
                 case ['08'; '00']
                     disp('E_READ_ERROR')
                     disp('Fehler beim Lesen von Daten.')
@@ -205,16 +205,16 @@ classdef wsg50 < handle
                     disp('Fehler beim Schreiben von Daten.')
                 case['0A'; '00']
                     disp('E_INSUFFICIENT_RESOURCES')
-                    disp('Nicht genï¿½gend Speicher vorhanden.')
+                    disp('Nicht genuegend Speicher vorhanden.')
                 case ['0B'; '00']
                     disp('E_CHECKSUM_ERROR')
-                    disp('Prï¿½fsummenfehler.')
+                    disp('Pruefsummenfehler.')
                 case ['0C'; '00']
                     disp('E_NO_PARAM_EXPECTED')
-                    disp('Parameter ï¿½bergeben, obwohl keiner erwartet.')
+                    disp('Parameter uebergeben, obwohl keiner erwartet.')
                 case ['0D'; '00']
                     disp('E_NOT_ENOUGH_PARAMS')
-                    disp('Zu wenige Parameter für den Befehl übergeben.')
+                    disp('Zu wenige Parameter fuer den Befehl uebergeben.')
                 case ['0E'; '00']
                     disp('E_CMD_UNKNOWN')
                     disp('Unbekannter Befehl.')
@@ -226,40 +226,40 @@ classdef wsg50 < handle
                     disp('Zugriff verweigert.')
                 case ['11'; '00']
                     disp('E_ALREADY_OPEN')
-                    disp('Schnittstelle ist bereits geöffnet.')
+                    disp('Schnittstelle ist bereits geoeffnet.')
                 case ['12'; '00']
                     disp('E_CMD_FAILED')
-                    disp('Fehler während der Ausführung eines Befehls.')
+                    disp('Fehler waehrend der Ausfuehrung eines Befehls.')
                 case ['13'; '00']
                     disp('E_CMD_ABORTED')
-                    disp('Befehlsausfï¿½hrung vom Benutzer abgebrochen.')
+                    disp('Befehlsausfuehrung vom Benutzer abgebrochen.')
                 case ['14'; '00']
                     disp('E_INVALID_HANDLE')
-                    disp('Ungï¿½ltiges Handle.')
+                    disp('Ungueltiges Handle.')
                 case ['15'; '00']
                     disp('E_NOT_FOUND')
-                    disp('Gerï¿½t oder Datei nicht gefunden.')
+                    disp('Geraet oder Datei nicht gefunden.')
                 case ['16'; '00']
                     disp('E_NOT_OPEN')
-                    disp('Gerï¿½t oder Datei nicht geï¿½ffnet.')
+                    disp('Geraet oder Datei nicht geoeffnet.')
                 case ['17'; '00']
                     disp('E_IO_ERROR')
                     disp('Ein-/Ausgabefehler.')
                 case ['18'; '00']
                     disp('E_INVALID_PARAMETER')
-                    disp('Ungï¿½ltiger Parameter.')
+                    disp('Ungueltiger Parameter.')
                 case ['19'; '00']
                     disp('E_INDEX_OUT_OF_BOUNDS')
-                    disp('Index auï¿½erhalb des zulï¿½ssigen Bereichs.')
+                    disp('Index ausserhalb des zulaessigen Bereichs.')
                 case ['1A'; '00']
                     disp('E_CMD_PENDING')
                     disp(strcat('Der Befehl wurde noch nicht',...
-                                ' vollstï¿½ndig ausgefï¿½hrt.'))
-                    disp(strcat('Eine Rï¿½ckmeldung mit Statuscode folgt',...
-                                ' nach Ausfï¿½hrung des Befehls.'))
+                                ' vollstaendig ausgefuehrt.'))
+                    disp(strcat('Eine Rueckmeldung mit Statuscode folgt',...
+                                ' nach Ausfuehrung des Befehls.'))
                 case ['1B'; '00']
                     disp('E_OVERRUN')
-                    disp('Datenï¿½berlauf.')
+                    disp('Datenueberlauf.')
                 case ['1C'; '00']
                     disp('E_RANGE_ERROR')
                     disp('Bereichsfehler.')
