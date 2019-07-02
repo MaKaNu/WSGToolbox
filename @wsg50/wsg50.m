@@ -1,35 +1,40 @@
 classdef wsg50 < handle
     
+    %CONSTANTS & PRIVATES
     properties (Constant, Access = private)
-        preambel = ['aa';'aa';'aa'];
-        CRC_0 = ['00';'00'];
+        preambel = ['aa';'aa';'aa'];    
+        CRC_0 = ['00';'00'];            % If CRC disabled
     end
     
+    %PRIVATES
     properties (Access = private)
-        autoopen
-        ID
-        Payload
-        Command
-        Data
-        Data_R
-        ID_R
-        payloadlength_R
-        payload_R
-        command_R
-        status_R
-        crc_R  
-        CRC
+        autoopen                %Boolean for autoconnection
+        ID                      %Mem for sending Command ID
+        Payload                 %Mem for sending Command Payload
+        Command                 %Mem for sending complete Command
+        Data                    %Mem for sending Data
+        Data_R                  %Mem for receiving Data
+        ID_R                    %Mem for receiving Command ID
+        payloadlength_R         %Mem for receiving payloadlength
+        payload_R               %Mem for receiving Payload
+        command_R               %Mem for receiving complete Command
+        status_R                %Mem for receining Status Message
+        crc_R                   %Mem for receiving CRC-Sum
+        CRC                     %Mem for sending CRC
     end
     
+    %PUBLICS
     properties
         IP
         PORT
-        TCPIP
-        verbose
-        debug
+        TCPIP                   %TCPIP-Objekt
+        verbose                 %Boolean for info messages
+        debug                   %Boolean for debugging enviroment
+        %Status variable for different ???
         status = struct('OVERDRIVE',false,'LIMITS',false);
     end
     
+    %PRIVATE METHODS
     methods (Access = private)
         
         %Create TCPIP Object
@@ -42,6 +47,9 @@ classdef wsg50 < handle
         end
         
         %Convert Data
+        %This function is used in every public method. It concatinate the
+        %command message and convert it from hex to dec. Also it is
+        %checking for CRC-sum.
         function DataEncode(Obj)
             %Checking if CRC set
             if isempty(Obj.CRC)
@@ -54,10 +62,14 @@ classdef wsg50 < handle
                             Obj.Payload;...         %Payload length
                             Obj.Command;...         %Command
                             Obj.CRC];               %CRC
+            %Convert hex 2 dec
             Obj.Data = hex2dec(Obj.Data);
         end
                       
         %Send Data
+        %This function is used in every public method. It checks if the
+        %connection is opened and sends the data, which is saved in the mem
+        %for sending data.
         function DataSend(Obj)
             if strcmp(Obj.TCPIP.Status,'open')
                 fwrite(Obj.TCPIP, uint8(Obj.Data), 'uint8');
@@ -68,6 +80,9 @@ classdef wsg50 < handle
         end
         
         %Receive Data
+        %This function is only used by the method ReadCommand. If Bytes are
+        %available it reads one Byte and Converts it to 2-Byte-Hex. This
+        %function should only be called if it receiving data is expected.
         function DataReceive(Obj)
             if strcmp(Obj.TCPIP.Status,'open')
                 cnt = 0;
@@ -81,7 +96,7 @@ classdef wsg50 < handle
                 end
                 %Receive one byte 
                 Obj.Data_R = fread(Obj.TCPIP, 1, 'uint8');
-                %Transform Data
+                %Convert Data to hex
                 Obj.Data_R = dec2hex(Obj.Data_R);
                 if length(Obj.Data_R) == 1
                     Obj.Data_R = strcat('0',Obj.Data_R);
@@ -93,6 +108,9 @@ classdef wsg50 < handle
         end
         
         %Read a single command
+        %This function is used by the Method Command_Complete. It is
+        %looking for the preambel and saves the receiving command,
+        %depending on its length.
         function ReadCommand(Obj)
             repeat_FLAG = true;
             %Find first 'AA'
@@ -142,7 +160,7 @@ classdef wsg50 < handle
                             Obj.status_R = [Obj.status_R; Obj.Data_R];
                     end
                 end
-                %Read Payload
+                %Read Payload depending on payloadlength
                 for i = 1:(hex2dec(Obj.payloadlength_R(1:2))+hex2dec(Obj.payloadlength_R(3:4))*256-2)
                    DataReceive(Obj)
                    Obj.command_R = [Obj.command_R; Obj.Data_R];
@@ -171,6 +189,8 @@ classdef wsg50 < handle
         end
         
         %DecodeStatus
+        %Simple Switch case LUT for Status message. USed in method
+        %command_complete
         function decode_status(Obj)
             switch Obj.status_R
                 case ['00';'00']
@@ -274,7 +294,50 @@ classdef wsg50 < handle
             end
         end
                 
+        %Command Complete
+        %This function should be called after every sended command. It is
+        %looking (at the moment) for two different status codes. A
+        %Byproduct of this method is the awnser command that is received
+        %from the gripper.
+        function command_complete(Obj)
+           repeat_flag = true;
+           while repeat_flag
+                ReadCommand(Obj)
+                switch Obj.ID_R 
+                    case Obj.ID
+                        % E_CMD_PENDING
+                        if strcmp(Obj.status_R,['1A';'00'])
+                            repeat_flag = true;
+                            if Obj.verbose
+                            decode_status(Obj)
+                            end
+                        % E_SUCCESS Messagepayload could be decode
+                        elseif strcmp(Obj.status_R,['00';'00'])
+                            repeat_flag = false;
+                            if Obj.verbose
+                                decode_status(Obj)
+                            end
+                            if Obj.TCPIP.BytesAvailable>0
+                                flushinput(Obj.TCPIP) 
+                            end
+                        else
+                            repeat_flag = false;
+                            decode_status(Obj)
+                        end
+                    otherwise
+                        if Obj.debug
+                            warning('THIS MESSAGE IS JUST FOR DEBUGING!')
+                            disp(Obj.ID_R)
+                            repeat_flag = true;
+                        end
+                end
+           end
+        end
+        
         %DecodePayload
+        %This function is used in every public method. It depends on Type,
+        %TypeLength, number of commands, and symbolname which is given
+        %inside the public functions
         function decode_payload(Obj,Type,TypeLength,Num_CMD,symbol)
             end_idx = 0;
             for i = 1:Num_CMD
@@ -295,48 +358,21 @@ classdef wsg50 < handle
                         if iscellstr(symbol)
                             Obj.status.(symbol{i})= typecast(uint32(hex2dec(hex_str)),'single');
                         else
-                            error('ERROR: THIS SHOULD NOT HAPPEN!!')
+                            error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
                         end
                     case 'STRING'
                     case 'BITVEC'
                         hex_str = reshape(flipud(Obj.payload_R)',1,2*size(Obj.payload_R,1));
                         hex_str = hex_str(start_idx:end_idx);
-                        Obj.status.(symbol{i})= hexToBinaryVector(hex_str,4*TypeLength{i});             
+                        if iscellstr(symbol)
+                            Obj.status.(symbol{i})= hexToBinaryVector(hex_str,4*TypeLength{i});      
+                        else
+                            error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
+                        end
                     case 'ENUM'
                     otherwise
                 end
             end
-        end
-        
-        %Command Complete
-        function command_complete(Obj)
-           repeat_flag = true;
-           while repeat_flag
-                ReadCommand(Obj)
-                switch Obj.ID_R 
-                    case Obj.ID
-                        if strcmp(Obj.status_R,['1A';'00'])
-                            repeat_flag = true;
-                            if Obj.verbose
-                            decode_status(Obj)
-                            end
-                        elseif strcmp(Obj.status_R,['00';'00'])
-                            repeat_flag = false;
-                            if Obj.verbose
-                                decode_status(Obj)
-                            end
-                            if Obj.TCPIP.BytesAvailable>0
-                                flushinput(Obj.TCPIP) 
-                            end
-                        else
-                            repeat_flag = false;
-                            decode_status(Obj)
-                        end
-                    otherwise
-                        warning('THIS MESSAGE IS JUST FOR DEBUGING!')
-                        repeat_flag = false;
-                end
-           end
         end
     end
     
@@ -368,7 +404,7 @@ classdef wsg50 < handle
                             Obj.debug = true;
                         case 'autoopen'
                             Obj.autoopen = true;
-                        end
+                    end
                 end
                 n = n +1;
             end
