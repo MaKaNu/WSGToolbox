@@ -97,10 +97,10 @@ classdef wsg50 < handle
                 %Receive one byte 
                 Obj.Data_R = fread(Obj.TCPIP, 1, 'uint8');
                 %Convert Data to hex
-                Obj.Data_R = dec2hex(Obj.Data_R);
-                if length(Obj.Data_R) == 1
-                    Obj.Data_R = strcat('0',Obj.Data_R);
-                end
+%                 Obj.Data_R = dec2hex(Obj.Data_R);
+%                 if length(Obj.Data_R) == 1
+%                     Obj.Data_R = strcat('0',Obj.Data_R);
+%                 end
             else
                 error(strcat('ERROR: Connection is not open. ',...
                              'Error-Code #00002'))
@@ -116,17 +116,16 @@ classdef wsg50 < handle
             %Find first 'AA'
             while repeat_FLAG
                 DataReceive(Obj)
-                if strcmp(Obj.Data_R,'AA')
+                if Obj.Data_R == 170
                     Obj.command_R = Obj.Data_R;
                     %Find second 'AA'
                     DataReceive(Obj)
-                    if (strcmp(Obj.Data_R,'AA') &&...
-                        strcmp(Obj.command_R,'AA'))
+                    if Obj.Data_R == 170 && Obj.command_R == 170
                         Obj.command_R = [Obj.command_R; Obj.Data_R];
                         %Find third 'AA'
                         DataReceive(Obj)
-                        if  (strcmp(Obj.Data_R,'AA') &&...
-                            strcmp(Obj.command_R,['AA';'AA']))
+                        if (Obj.Data_R == 170 && Obj.command_R(1) == 170 ...
+                            && Obj.command_R(2) == 170)
                             Obj.command_R = [Obj.command_R; Obj.Data_R];
                             repeat_FLAG = false;
                         else
@@ -140,7 +139,7 @@ classdef wsg50 < handle
                 end
             end
             %Read ID, Payloadlength and Status
-            if strcmp(Obj.command_R,['AA';'AA';'AA'])
+            if Obj.command_R(1:3) == [170;170;170]
                 for i = 1:5
                     DataReceive(Obj)
                     Obj.command_R = [Obj.command_R; Obj.Data_R];
@@ -153,7 +152,7 @@ classdef wsg50 < handle
                         case 2
                             Obj.payloadlength_R = Obj.Data_R;
                         case 3
-                            Obj.payloadlength_R = strcat(Obj.payloadlength_R, Obj.Data_R);
+                            Obj.payloadlength_R = [Obj.payloadlength_R, Obj.Data_R];
                         case 4
                             Obj.status_R = Obj.Data_R;
                         case 5
@@ -161,7 +160,7 @@ classdef wsg50 < handle
                     end
                 end
                 %Read Payload depending on payloadlength
-                for i = 1:(hex2dec(Obj.payloadlength_R(1:2))+hex2dec(Obj.payloadlength_R(3:4))*256-2)
+                for i = 1:Obj.payloadlength_R(1)+Obj.payloadlength_R(2)*255-2
                    DataReceive(Obj)
                    Obj.command_R = [Obj.command_R; Obj.Data_R];
                    if i == 1
@@ -192,7 +191,7 @@ classdef wsg50 < handle
         %Simple Switch case LUT for Status message. USed in method
         %command_complete
         function decode_status(Obj)
-            switch Obj.status_R
+            switch dec2hex(Obj.status_R,2)
                 case ['00';'00']
                     disp('E_SUCCESS')
                     disp('Kein Fehler aufgetreten,Befehl erfolgreich.')
@@ -223,7 +222,7 @@ classdef wsg50 < handle
                 case ['09'; '00']
                     disp('E_WRITE_ERROR')
                     disp('Fehler beim Schreiben von Daten.')
-                case['0A'; '00']
+                case ['0A'; '00']
                     disp('E_INSUFFICIENT_RESOURCES')
                     disp('Nicht genuegend Speicher vorhanden.')
                 case ['0B'; '00']
@@ -303,16 +302,16 @@ classdef wsg50 < handle
            repeat_flag = true;
            while repeat_flag
                 ReadCommand(Obj)
-                switch Obj.ID_R 
+                switch dec2hex(Obj.ID_R)
                     case Obj.ID
                         % E_CMD_PENDING
-                        if strcmp(Obj.status_R,['1A';'00'])
+                        if Obj.status_R(1) == 26 && Obj.status_R(2) == 0
                             repeat_flag = true;
                             if Obj.verbose
                             decode_status(Obj)
                             end
                         % E_SUCCESS Messagepayload could be decode
-                        elseif strcmp(Obj.status_R,['00';'00'])
+                        elseif Obj.status_R(1) == 0 && Obj.status_R(2) == 0
                             repeat_flag = false;
                             if Obj.verbose
                                 decode_status(Obj)
@@ -344,32 +343,57 @@ classdef wsg50 < handle
                 if i == 1
                     PreviousLength = 1;
                 else
-                    PreviousLength = TypeLength{i-1}+1;
+                    PreviousLength = PreviousLength + TypeLength{i-1};
                 end
                 start_idx = PreviousLength;
                 end_idx = end_idx + TypeLength{i};
                 
                 switch Type{i}
                     case 'INTEGER'
-                        
-                    case 'FLOAT'    %TypeLength not used for FLOAT
-                        hex_str = reshape(flipud(Obj.payload_R)',1,2*size(Obj.payload_R,1));
-                        hex_str = hex_str(start_idx:end_idx);
+                        dec_str = Obj.payload_R';
+                        dec_str = dec_str(start_idx:end_idx);
+                        tmp_int = 0;
+                        for j = 1:length(dec_str)
+                             tmp_int =  tmp_int + dec_str(j)*255^(j-1);
+                        end
                         if iscellstr(symbol)
-                            Obj.status.(symbol{i})= typecast(uint32(hex2dec(hex_str)),'single');
+                            Obj.status.(symbol{i}) = tmp_int;
+                        else
+                            error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
+                        end
+                    case 'FLOAT'    %TypeLength not used for FLOAT ??? What did I mean
+                        dec_str = Obj.payload_R';
+                        dec_str = dec_str(start_idx:end_idx);
+                        if iscellstr(symbol)
+                            Obj.status.(symbol{i})= typecast(uint8(dec_str),'single');
                         else
                             error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
                         end
                     case 'STRING'
                     case 'BITVEC'
-                        hex_str = reshape(flipud(Obj.payload_R)',1,2*size(Obj.payload_R,1));
-                        hex_str = hex_str(start_idx:end_idx);
+                        dec_str = Obj.payload_R';
+                        dec_str = dec_str(start_idx:end_idx);
+                        dec_str = de2bi(dec_str);
+                        tmp_bivec = zeros(1,4*length(dec_str));
+                        a=1;b=8;
+                        for j = 1:size(dec_str,1)
+                            tmp_bivec(a:b) = dec_str(j,:);
+                            a=a+8;
+                            b=b+8;
+                        end
                         if iscellstr(symbol)
-                            Obj.status.(symbol{i})= hexToBinaryVector(hex_str,4*TypeLength{i});      
+                            Obj.status.(symbol{i})= fliplr(tmp_bivec);      
                         else
                             error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
                         end
                     case 'ENUM'
+                        dec_str = Obj.payload_R';
+                        dec_str = dec_str(start_idx:end_idx);
+                        if iscellstr(symbol)
+                            Obj.status.(symbol{i})= dec_str;
+                        else
+                            error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
+                        end
                     otherwise
                 end
             end
@@ -417,7 +441,8 @@ classdef wsg50 < handle
         end
         
         %DECONSTRUCTER
-        function delete(~) 
+        function delete(Obj) 
+            Obj.disconnect
             instrreset
         end   
 

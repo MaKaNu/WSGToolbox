@@ -6,9 +6,9 @@ function get_softlimits(Obj)
     
     %create vars for Decode_payload function 
     Type = {'FLOAT', 'FLOAT'};
-    TypeLength = {8,8};
+    TypeLength = {4,4};
     Num_CMD = size(Type,2);
-    symbol = {'LIMIT_PLUS', 'LIMIT_MINUS'};
+    symbol = {'LIMIT_MINUS', 'LIMIT_PLUS'};
     if Obj.status.LIMITS==false
         warning('No softlimits set. Command will not be executed.')
         ErrorCode = 1;

@@ -6,7 +6,7 @@ function get_force(Obj)
     
     %create vars for Decode_payload function 
     Type = {'FLOAT'};
-    TypeLength = {8};
+    TypeLength = {4};
     Num_CMD = size(Type,2);
     symbol = {'FORCE'};
     

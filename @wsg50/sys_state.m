@@ -43,7 +43,7 @@ function sys_state(Obj,change, automatic,time)
         elseif change
             Obj.Command = ['02';time_];             % This Option is irrelvant
             warning('Just Because something is possible, doesnt mean it is usefull!')
-        elseif autoamtic
+        elseif automatic
             Obj.Command = ['01';time_];  
         else
             Obj.Command = ['00';time_];  
@@ -54,8 +54,7 @@ function sys_state(Obj,change, automatic,time)
         command_complete(Obj);
         decode_payload(Obj,Type,TypeLength,Num_CMD,symbol);
         if Obj.verbose
-            disp(strcat('LIMIT MINUS:', num2str(Obj.status.LIMIT_MINUS),' mm'))
-            disp(strcat('LIMIT PLUS:', num2str(Obj.status.LIMIT_PLUS),' mm'))
+            disp(strcat('SYSTEM STATUS: ', num2str(Obj.status.SSTATE)))
         end
     end
 end
