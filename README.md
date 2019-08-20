@@ -28,5 +28,10 @@ The Class includes the following User-Functions:
 The Installation-Guide is localized in the [WIKI](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home)
 ## Usage
 The Complete explanation how to use the class is found in the [WIKI](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/usage)
+
+Greifer     | IP-Adress     | PORT
+--------    | --------      | --------
+WSG50_IP72  | 172.16.6.72   | 1000
+WSG50_IP79  | 172.16.6.79   | 1002
 ## Citing
 @misc{wsg50.2019, title={WSG: A Gripper Class for MATLAB}, author={Kaupenjohann, Matti}, year={2019} }
