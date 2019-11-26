@@ -1,5 +1,22 @@
 classdef wsg50 < handle
-    
+% WSG50 Class summary goes here:
+%
+% gripper = wsg50(varargin) Creates a gripper object
+% 
+% Optional inputs:
+%   - 'IP', 'aaa.bbb.ccc.ddd'
+%   - 'PORT', 1234
+%   - 'verbose'
+%   - 'debug'
+%   - 'autoopen'
+
+% $Revision: 0.2.1 $
+% $Author: Matti Kaupenjohann $ 
+% $Date: 2019/11/26 $ 
+% 
+% Copyright: Fachhochschule Dortmund LIT 2019
+
+  
     %CONSTANTS & PRIVATES
     properties (Constant, Access = private)
         preambel = ['aa';'aa';'aa'];    
