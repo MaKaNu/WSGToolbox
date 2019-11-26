@@ -1,4 +1,7 @@
 %ack Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
 function ack(Obj)
 
     %Flags Input check

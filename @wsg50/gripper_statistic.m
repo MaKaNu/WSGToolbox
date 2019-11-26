@@ -1,3 +1,8 @@
+% gripper_statistic function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function gripper_statistic(Obj,reset)
 
     %TYPE CHECK

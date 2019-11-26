@@ -1,4 +1,8 @@
 %Get Force Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function get_force(Obj)
 
     %TYPE CHECK

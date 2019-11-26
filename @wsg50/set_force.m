@@ -1,4 +1,8 @@
 %Set Force Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function set_force(Obj,force)
 
     %TYPE CHECK

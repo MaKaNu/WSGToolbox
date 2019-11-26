@@ -1,4 +1,8 @@
 %stop Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function stop(Obj)
 
     %Flags Input check

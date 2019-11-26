@@ -1,4 +1,8 @@
 %Systemstate function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function sys_state(Obj,change, automatic,time)
 
     %TYPE CHECK

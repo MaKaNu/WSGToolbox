@@ -1,6 +1,8 @@
-
-
 %release Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function release(Obj,width,speed)
 
     %TYPE CHECK

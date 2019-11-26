@@ -1,4 +1,8 @@
-%Set Force Function
+%overdrive Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function overdrive(Obj,bool)
 
     %TYPE CHECK

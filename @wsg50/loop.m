@@ -1,4 +1,8 @@
-%Loop Command
+%Loop function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function loop(Obj,testdata)
     ErrorCode = 0;
     DataLength = length(testdata);
@@ -30,6 +34,7 @@ function loop(Obj,testdata)
         ErrorCode = 1;
     end
 
+%   Copyright 2019 Fachhochschule Dortmund LIT
     if ErrorCode == 0
         c = [];
 

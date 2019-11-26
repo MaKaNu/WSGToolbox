@@ -1,4 +1,8 @@
 %reset Softlimits Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function reset_softlimits(Obj)
 
     %TYPE CHECK

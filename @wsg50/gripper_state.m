@@ -1,5 +1,10 @@
 %gripperstate function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function gripper_state(Obj,change, automatic,time)
+
 
     %TYPE CHECK
     ErrorCode = 0;

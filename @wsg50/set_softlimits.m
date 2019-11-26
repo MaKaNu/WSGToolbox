@@ -1,4 +1,8 @@
 %Softlimit Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function set_softlimits(Obj,minus_limit,plus_limit)
 
     %TYPE CHECK

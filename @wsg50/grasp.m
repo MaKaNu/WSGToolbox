@@ -1,5 +1,10 @@
 %Grasp Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function grasp(Obj,width,speed)
+
 
     %TYPE CHECK
     ErrorCode = 0;

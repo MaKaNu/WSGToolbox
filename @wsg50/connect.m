@@ -1,3 +1,7 @@
+% connect function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
 function connect(Obj)
 
     if strcmp(Obj.TCPIP.status,'closed')

@@ -1,4 +1,8 @@
-%Reference
+%Reference function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function reference(Obj,direction)
     ErrorCode = 0;
 

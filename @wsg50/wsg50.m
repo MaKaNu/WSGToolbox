@@ -10,11 +10,11 @@ classdef wsg50 < handle
 %   - 'debug'
 %   - 'autoopen'
 
+%   Copyright 2019 Fachhochschule Dortmund LIT
 % $Revision: 0.2.1 $
 % $Author: Matti Kaupenjohann $ 
 % $Date: 2019/11/26 $ 
-% 
-% Copyright: Fachhochschule Dortmund LIT 2019
+
 
   
     %CONSTANTS & PRIVATES

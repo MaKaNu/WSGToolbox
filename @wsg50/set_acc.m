@@ -1,4 +1,8 @@
 %Set Acceleration Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function set_acc(Obj,acc)
 
     %TYPE CHECK

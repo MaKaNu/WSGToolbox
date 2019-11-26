@@ -1,6 +1,8 @@
-
-
 %position Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function position(Obj,flags,width,speed)
 
     %Flags Input check

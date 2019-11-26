@@ -1,4 +1,8 @@
 %fast_stop Function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
+
 function fast_stop(Obj)
 
     %Flags Input check

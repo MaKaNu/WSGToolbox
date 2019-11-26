@@ -1,3 +1,7 @@
+% disconnect function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
 function disconnect(Obj)
 
     %TYPE CHECK
