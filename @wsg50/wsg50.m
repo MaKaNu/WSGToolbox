@@ -38,6 +38,9 @@ classdef wsg50 < handle
         status_R                %Mem for receining Status Message
         crc_R                   %Mem for receiving CRC-Sum
         CRC                     %Mem for sending CRC
+        msg_table               %Continous Memory for every msg
+        new_msg                 %Boolean for checking of new messages
+        buffer                  %Memory for received Data
     end
     
     %PUBLICS
@@ -51,6 +54,58 @@ classdef wsg50 < handle
         status = struct('OVERDRIVE',false,'LIMITS',false);
     end
     
+    methods
+        
+        %CONSTRUCTOR
+        function Obj = wsg50(varargin)
+
+            %Set Standards
+            Obj.IP = 'localhost';
+            Obj.PORT = 1000;
+            Obj.verbose = false;
+            Obj.debug = false;
+            Obj.autoopen = false;
+            
+            %Set properties
+            Obj.msg_table = msg_id_tbl();
+            Obj.buffer = [];
+            
+            
+            n=1;
+            while n <= length(varargin)
+                if ischar(varargin{n})
+                    str = varargin{n};
+                    switch str
+                        case 'IP'
+                            Obj.IP = varargin{n+1};
+                        case 'PORT'
+                            Obj.PORT = varargin{n+1};
+                        case 'verbose'
+                            Obj.verbose = true;
+                        case 'debug'
+                            Obj.debug = true;
+                        case 'autoopen'
+                            Obj.autoopen = true;
+                    end
+                end
+                n = n +1;
+            end
+            
+            ipobject(Obj);
+            if Obj.autoopen
+                Obj.connect();
+                disp('Connection is open!')
+            end
+        end
+        
+        %DECONSTRUCTER
+        function delete(Obj) 
+            Obj.disconnect
+            instrreset
+        end   
+
+    end
+    
     %PRIVATE METHODS
     methods (Access = private)
         
@@ -61,6 +116,20 @@ classdef wsg50 < handle
             Obj.TCPIP.InputBufferSize = 3000;
             Obj.TCPIP.ByteOrder = 'littleEndian';
             Obj.TCPIP.Timeout = 1;
+            %Setting up Callbackfunction
+            Obj.TCPIP.BytesAvailableFcnMode = 'byte';
+            Obj.TCPIP.BytesAvailableFcnCount = 1;
+            Obj.TCPIP.BytesAvailableFcn = {@TCP_Callback};
+            
+        end
+        
+        %TCP Callback
+        %This function will be called if one Byte is available at the TCPIP
+        %buffer. 
+        function TCP_Callback(Obj,~)
+            Obj.DataReceive
+            if Obj.buffer
+            end
         end
         
         %Convert Data
@@ -84,7 +153,7 @@ classdef wsg50 < handle
         end
                       
         %Send Data
-        %This function is used in every public method. It checks if the
+        %This function is used in every publi   c method. It checks if the
         %connection is opened and sends the data, which is saved in the mem
         %for sending data.
         function DataSend(Obj)
@@ -113,11 +182,7 @@ classdef wsg50 < handle
                 end
                 %Receive one byte 
                 Obj.Data_R = fread(Obj.TCPIP, 1, 'uint8');
-                %Convert Data to hex
-%                 Obj.Data_R = dec2hex(Obj.Data_R);
-%                 if length(Obj.Data_R) == 1
-%                     Obj.Data_R = strcat('0',Obj.Data_R);
-%                 end
+                Obj.buffer = [Obj.buffer, Obj.Data_R];
             else
                 error(strcat('ERROR: Connection is not open. ',...
                              'Error-Code #00002'))
@@ -128,33 +193,13 @@ classdef wsg50 < handle
         %This function is used by the Method Command_Complete. It is
         %looking for the preambel and saves the receiving command,
         %depending on its length.
-        function ReadCommand(Obj)
-            repeat_FLAG = true;
-            %Find first 'AA'
-            while repeat_FLAG
-                DataReceive(Obj)
-                if Obj.Data_R == 170
-                    Obj.command_R = Obj.Data_R;
-                    %Find second 'AA'
-                    DataReceive(Obj)
-                    if Obj.Data_R == 170 && Obj.command_R == 170
-                        Obj.command_R = [Obj.command_R; Obj.Data_R];
-                        %Find third 'AA'
-                        DataReceive(Obj)
-                        if (Obj.Data_R == 170 && Obj.command_R(1) == 170 ...
-                            && Obj.command_R(2) == 170)
-                            Obj.command_R = [Obj.command_R; Obj.Data_R];
-                            repeat_FLAG = false;
-                        else
-                            repeat_FLAG = true;
-                        end
-                    else
-                        repeat_FLAG = true;
-                    end
-                else
-                    repeat_FLAG = true;
-                end
+        function ReadData(Obj)
+            %Wait until preambel
+            if Obj.command_R(1:3) == 170
+                Obj.new_msg = false;
+                
             end
+
             %Read ID, Payloadlength and Status
             if Obj.command_R(1:3) == [170;170;170]
                 for i = 1:5
@@ -417,52 +462,6 @@ classdef wsg50 < handle
         end
     end
     
-    methods
-        
-        %CONSTRUCTOR
-        function Obj = wsg50(varargin)
-
-            %Set Standards
-            Obj.IP = 'localhost';
-            Obj.PORT = 1000;
-            Obj.verbose = false;
-            Obj.debug = false;
-            Obj.autoopen = false;
-            
-            
-            n=1;
-            while n <= length(varargin)
-                if ischar(varargin{n})
-                    str = varargin{n};
-                    switch str
-                        case 'IP'
-                            Obj.IP = varargin{n+1};
-                        case 'PORT'
-                            Obj.PORT = varargin{n+1};
-                        case 'verbose'
-                            Obj.verbose = true;
-                        case 'debug'
-                            Obj.debug = true;
-                        case 'autoopen'
-                            Obj.autoopen = true;
-                    end
-                end
-                n = n +1;
-            end
-            
-            ipobject(Obj);
-            if Obj.autoopen
-                Obj.connect();
-                disp('Connection is open!')
-            end
-        end
-        
-        %DECONSTRUCTER
-        function delete(Obj) 
-            Obj.disconnect
-            instrreset
-        end   
-
-    end
+    
                
 end    
