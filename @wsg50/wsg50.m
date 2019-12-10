@@ -111,6 +111,49 @@ classdef wsg50 < handle
 			end
 			instrreset
 		end
+			
+	end
+	
+	%PRIVATE METHODS
+	methods (Access = private)
+		
+		%Check varargins greater then 2
+		function check_vars(obj,classvars)
+			n=3;
+			while n <= length(classvars)
+				if ischar(classvars{n})
+					str = classvars{n};
+					switch str
+						case 'verbose'
+							obj.verbose = true;
+						case 'debug'
+							obj.debug = true;
+						case 'autoopen'
+							obj.autoopen = true;
+					end
+				end
+				n = n +1;
+			end
+		end
+		
+		%Create TCPIP object
+		function conf_conn(obj)
+			obj.TCPIP = tcpip(obj.IP,obj.PORT);
+			obj.TCPIP.OutputBufferSize = 3000;
+			obj.TCPIP.InputBufferSize = 3000;
+			obj.TCPIP.ByteOrder = 'littleEndian';
+			obj.TCPIP.Timeout = 1;
+			
+		end
+		
+		%Build boolean_strcut
+		function init_b_struct(obj)
+			obj.boolean_struct.ID = false;
+			obj.boolean_struct.LENGTH = false;
+			obj.boolean_struct.STATUS = false;
+			obj.boolean_struct.PAYLOAD = false;
+			obj.boolean_struct.CRC = false;
+		end
 		
 		%Receive Data
 		%This function is only used by the method ReadCommand. If Bytes are
@@ -186,49 +229,6 @@ classdef wsg50 < handle
 			else
 				warning('RECEIVED BYTES ARE NO EXPECTED')
 			end
-		end
-		
-	end
-	
-	%PRIVATE METHODS
-	methods (Access = private)
-		
-		%Check varargins greater then 2
-		function check_vars(obj,classvars)
-			n=3;
-			while n <= length(classvars)
-				if ischar(classvars{n})
-					str = classvars{n};
-					switch str
-						case 'verbose'
-							obj.verbose = true;
-						case 'debug'
-							obj.debug = true;
-						case 'autoopen'
-							obj.autoopen = true;
-					end
-				end
-				n = n +1;
-			end
-		end
-		
-		%Create TCPIP object
-		function conf_conn(obj)
-			obj.TCPIP = tcpip(obj.IP,obj.PORT);
-			obj.TCPIP.OutputBufferSize = 3000;
-			obj.TCPIP.InputBufferSize = 3000;
-			obj.TCPIP.ByteOrder = 'littleEndian';
-			obj.TCPIP.Timeout = 1;
-			
-		end
-		
-		%Build boolean_strcut
-		function init_b_struct(obj)
-			obj.boolean_struct.ID = false;
-			obj.boolean_struct.LENGTH = false;
-			obj.boolean_struct.STATUS = false;
-			obj.boolean_struct.PAYLOAD = false;
-			obj.boolean_struct.CRC = false;
 		end
 				
 		%Calculate Payloadlength
