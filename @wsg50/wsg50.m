@@ -154,28 +154,28 @@ classdef wsg50 < handle
 				obj.buffer = [];
 			elseif obj.boolean_struct.LENGTH
 				if size(obj.buffer,2) == 2
-					obj.msg_table.enter_ID_val(obj,obj.ID_R,'LENGTH',obj.buffer)
+					obj.msg_table.enter_ID_val(obj.ID_R,'LENGTH',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.LENGTH = false;
 					obj.boolean_struct.STATUS = true;
 				end
 			elseif obj.boolean_struct.STATUS
 				if size(obj.buffer,2) == 2
-					obj.msg_table.enter_ID_val(obj,obj.ID_R,'STATUS',obj.buffer)
+					obj.msg_table.enter_ID_val(obj.ID_R,'STATUS',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.STATUS = false;
 					obj.boolean_struct.PAYLOAD = true;
 				end
 			elseif obj.boolean_struct.PAYLOAD
 				if size(obj.buffer,2) == calc_payload(obj.ID_R)-2
-					obj.msg_table.enter_ID_val(obj,obj.ID_R,'PAYLOAD',obj.buffer)
+					obj.msg_table.enter_ID_val(obj.ID_R,'PAYLOAD',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.PAYLOAD = false;
 					obj.boolean_struct.CRC = true;
 				end
 			elseif obj.boolean_struct.CRC
 				if size(obj.buffer,2) == 2
-					obj.msg_table.enter_ID_val(obj,obj.ID_R,'CRC',obj.buffer)
+					obj.msg_table.enter_ID_val(obj.ID_R,'CRC',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.CRC = false;
 				end
