@@ -22,7 +22,8 @@ classdef msg_id_tbl < handle
 		end
 		
 		function enter_ID_val(obj,ID_num,field,value)
-			obj.msg_tbl.(dec2hex(ID_num,2)).(field) = value;
+			ID_entry = strcat('ID_',dec2hex(ID_num,2));
+			obj.msg_tbl.(ID_entry).(field) = value;
 		end
 	end
 end
