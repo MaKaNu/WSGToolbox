@@ -268,66 +268,6 @@ classdef wsg50 < handle
 			end
 		end
 		
-		%Read a single command
-		%This function is used by the Method Command_Complete. It is
-		%looking for the preambel and saves the receiving command,
-		%depending on its length.
-		function ReadData(obj)
-			%Wait until preambel
-			if obj.command_R(1:3) == 170
-				obj.new_msg = false;
-				
-			end
-			
-			%Read ID, Payloadlength and Status
-			if obj.command_R(1:3) == [170;170;170]
-				for i = 1:5
-					DataReceive(obj)
-					obj.command_R = [obj.command_R; obj.Data_R];
-					switch i
-						case 1
-							obj.ID_R = obj.Data_R;
-							if obj.debug
-								disp(obj.ID_R)
-							end
-						case 2
-							obj.payloadlength_R = obj.Data_R;
-						case 3
-							obj.payloadlength_R = [obj.payloadlength_R, obj.Data_R];
-						case 4
-							obj.status_R = obj.Data_R;
-						case 5
-							obj.status_R = [obj.status_R; obj.Data_R];
-					end
-				end
-				%Read Payload depending on payloadlength
-				for i = 1:obj.payloadlength_R(1)+obj.payloadlength_R(2)*255-2
-					DataReceive(obj)
-					obj.command_R = [obj.command_R; obj.Data_R];
-					if i == 1
-						obj.payload_R = obj.Data_R;
-					else
-						obj.payload_R = [obj.payload_R; obj.Data_R];
-					end
-				end
-				%Read CRC-Checksum
-				for i = 1:2
-					DataReceive(obj)
-					obj.command_R = [obj.command_R; obj.Data_R];
-					if i == 1
-						obj.crc_R = obj.Data_R;
-					else
-						obj.crc_R = [obj.crc_R; obj.Data_R];
-					end
-				end
-				
-			else
-				error(strcat('ERROR: Wrong Preambel. ',...
-					'Error-Code #00003'))
-			end
-			
-		end
-		
 		%DecodeStatus
 		%Simple Switch case LUT for Status message. USed in method
 		%command_complete
