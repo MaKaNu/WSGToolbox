@@ -492,7 +492,7 @@ classdef wsg50 < handle
 		%buffer.
 		function TCP_Callback(tcpsocket,event,obj)
 			obj.DataReceive()
-			if any(obj.buffer)
+			if ~isempty(obj.buffer)
 				obj.sort_buffer()
 			end
 		end
