@@ -171,7 +171,7 @@ classdef wsg50 < handle
 					end
 				end
 			elseif obj.boolean_struct.PAYLOAD
-				if size(obj.buffer,2) == calc_payload(obj.ID_R)-2
+				if size(obj.buffer,2) == obj.calc_payload(obj.ID_R)-2
 					obj.msg_table.enter_ID_val(obj.ID_R,'PAYLOAD',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.PAYLOAD = false;
