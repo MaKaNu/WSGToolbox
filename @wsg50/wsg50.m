@@ -234,8 +234,8 @@ classdef wsg50 < handle
 		%Calculate Payloadlength
 		%Calculates the Payload length of a specific ID
 		function payload_l = calc_payload(obj,ID)
-			low_b = obj.msg_table.msg_tbl.(hex2dec(ID,2)).LENGTH(1);
-			high_b = obj.msg_table.msg_tbl.(hex2dec(ID,2)).LENGTH(2);
+			low_b = obj.msg_table.msg_tbl.(strcat('ID_',dec2hex(ID,2))).LENGTH(1);
+			high_b = obj.msg_table.msg_tbl.(strcat('ID_',dec2hex(ID,2))).LENGTH(2);
 			payload_l = low_b + high_b;
 		end
 		
