@@ -213,6 +213,15 @@ classdef wsg50 < handle
 					obj.buffer = [];
 					obj.boolean_struct.PAYLOAD = false;
 					obj.boolean_struct.CRC = true;
+					decode_payload(obj, ...
+										dec2hex(obj.ID_R,2), ...
+										obj.decodeprop.Type, ...
+										obj.decodeprop.TypeLength, ...
+										obj.decodeprop.Num_CMD, ...
+										obj.decodeprop.symbol);
+					if obj.verbose
+						disp(strcat(obj.decodeprop.name, num2str(obj.status.ACC),obj.decodeprop.unit))
+					end
 				end
 			elseif obj.boolean_struct.CRC
 				if size(obj.buffer,2) == 2
@@ -390,7 +399,7 @@ classdef wsg50 < handle
 				
 				switch Type{i}
 					case 'INTEGER'
-						dec_str = obj.payload_R';
+						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						tmp_int = 0;
 						for j = 1:length(dec_str)
@@ -402,7 +411,7 @@ classdef wsg50 < handle
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'FLOAT'    %TypeLength not used for FLOAT ??? What did I mean
-						dec_str = obj.payload_R';
+						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						if iscellstr(symbol)
 							obj.status.(symbol{i})= typecast(uint8(dec_str),'single');
@@ -411,7 +420,7 @@ classdef wsg50 < handle
 						end
 					case 'STRING'
 					case 'BITVEC'
-						dec_str = obj.payload_R';
+						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						dec_str = de2bi(dec_str);
 						tmp_bivec = zeros(1,4*length(dec_str));
@@ -427,7 +436,7 @@ classdef wsg50 < handle
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'ENUM'
-						dec_str = obj.payload_R';
+						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						if iscellstr(symbol)
 							obj.status.(symbol{i})= dec_str;
