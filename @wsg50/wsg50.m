@@ -269,8 +269,9 @@ classdef wsg50 < handle
 		%DecodeStatus
 		%Simple Switch case LUT for Status message. USed in method
 		%command_complete
-		function decode_status(obj)
-			switch dec2hex(obj.status_R,2)
+		function decode_status(obj,ID)
+			status_ = obj.msg_table.msg_tbl.(strcat('ID_',ID)).STATUS;
+			switch dec2hex(status_)
 				case ['00';'00']
 					disp('E_SUCCESS')
 					disp('Kein Fehler aufgetreten,Befehl erfolgreich.')
