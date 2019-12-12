@@ -3,10 +3,16 @@
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
 
-function get_force(Obj)
+function get_force(obj)
 
-    %TYPE CHECK
+    %Initial Error Check
     ErrorCode = 0;
+	 if isfield(obj.msg_table.msg_tbl, 'ID_33')
+		 if ~(obj.msg_table.msg_tbl.ID_33.STATUS == 0)
+			obj.decode_status('33')
+			ErrorCode = 1;
+		 end
+	 end
     
     %create vars for Decode_payload function 
     Type = {'FLOAT'};
@@ -16,16 +22,16 @@ function get_force(Obj)
     
     
     if ErrorCode == 0
-        Obj.ID = '33';                              %ID get Force
-        Obj.Payload = ['00'; '00'];                 %Payload length Acc
-        Obj.Command = [];                           %no Payload
+        obj.ID = '33';                              %ID get Force
+        obj.Payload = ['00'; '00'];                 %Payload length Acc
+        obj.Command = [];                           %no Payload
 
-        DataEncode(Obj);
-        DataSend(Obj);
-        command_complete(Obj);
-        decode_payload(Obj,Type,TypeLength,Num_CMD,symbol);
-        if Obj.verbose
-            disp(strcat('Force:', num2str(Obj.status.FORCE),' N'))
+        DataEncode(obj);
+        DataSend(obj);
+
+		  decode_payload(obj,obj.ID,Type,TypeLength,Num_CMD,symbol);
+        if obj.verbose
+            disp(strcat('Force:', num2str(obj.status.FORCE),' N'))
         end
     end
 end

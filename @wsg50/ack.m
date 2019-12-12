@@ -4,8 +4,14 @@
 
 function ack(obj)
 
-    %Flags Input check
+    %Initial Error Check
     ErrorCode = 0;
+	 if isfield(obj.msg_table.msg_tbl, 'ID_24')
+		 if ~(obj.msg_table.msg_tbl.ID_24.STATUS == 0)
+			obj.decode_status('24')
+			ErrorCode = 1;
+		 end
+	 end
 
     if ErrorCode == 0
             obj.ID = '24';                              %ID Graps
@@ -14,6 +20,5 @@ function ack(obj)
 
             DataEncode(obj);
             DataSend(obj);
-            %command_complete(obj);
     end
 end

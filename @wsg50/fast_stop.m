@@ -2,19 +2,23 @@
 
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
+function fast_stop(obj)
 
-function fast_stop(Obj)
-
-    %Flags Input check
+    %Initial Error Check
     ErrorCode = 0;
+	 if isfield(obj.msg_table.msg_tbl, 'ID_23')
+		 if ~(obj.msg_table.msg_tbl.ID_23.STATUS == 0)
+			obj.decode_status('23')
+			ErrorCode = 1;
+		 end
+	 end
 
     if ErrorCode == 0
-            Obj.ID = '23';                              %ID Graps
-            Obj.Payload = ['00'; '00'];                 %Payload length grasp
-            Obj.Command = [];                           %No Command
+            obj.ID = '23';                              %ID Graps
+            obj.Payload = ['00'; '00'];                 %Payload length grasp
+            obj.Command = [];                           %No Command
 
-            DataEncode(Obj);
-            DataSend(Obj);
-            command_complete(Obj);
+            DataEncode(obj);
+            DataSend(obj);
     end
 end

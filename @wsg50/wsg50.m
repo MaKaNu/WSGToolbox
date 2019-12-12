@@ -233,7 +233,7 @@ classdef wsg50 < handle
 				warning('RECEIVED BYTES ARE NO EXPECTED')
 			end
 		end
-				
+		
 		%Calculate Payloadlength
 		%Calculates the Payload length of a specific ID
 		function payload_l = calc_payload(obj,ID)
