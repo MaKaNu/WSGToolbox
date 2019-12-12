@@ -32,16 +32,10 @@ classdef wsg50 < handle
 		Data                    %Mem for sending Data
 		Data_R                  %Mem for receiving Data
 		ID_R                    %Mem for receiving Command ID
-		payloadlength_R         %Mem for receiving payloadlength
-		payload_R               %Mem for receiving Payload
-		command_R               %Mem for receiving complete Command
-		status_R                %Mem for receining Status Message
-		crc_R                   %Mem for receiving CRC-Sum
 		CRC                     %Mem for sending CRC
-		               %Continous Memory for every msg
-		new_msg                 %Boolean for checking of new messages
 		buffer                  %Memory for received Data
 		boolean_struct = struct;%Struct for message boolean values
+		decodeprop = struct;		%struct for decoding msgs
 	end
 	
 	%PUBLICS
@@ -111,7 +105,7 @@ classdef wsg50 < handle
 			end
 			instrreset
 		end
-			
+		
 	end
 	
 	%PRIVATE METHODS
@@ -378,51 +372,11 @@ classdef wsg50 < handle
 			end
 		end
 		
-		%Command Complete
-		%This function should be called after every sended command. It is
-		%looking (at the moment) for two different status codes. A
-		%Byproduct of this method is the awnser command that is received
-		%from the gripper.
-		function command_complete(obj)
-			repeat_flag = true;
-			while repeat_flag
-				ReadCommand(obj)
-				switch dec2hex(obj.ID_R)
-					case obj.ID
-						% E_CMD_PENDING
-						if obj.status_R(1) == 26 && obj.status_R(2) == 0
-							repeat_flag = true;
-							if obj.verbose
-								decode_status(obj)
-							end
-							% E_SUCCESS Messagepayload could be decode
-						elseif obj.status_R(1) == 0 && obj.status_R(2) == 0
-							repeat_flag = false;
-							if obj.verbose
-								decode_status(obj)
-							end
-							if obj.TCPIP.BytesAvailable>0
-								flushinput(obj.TCPIP)
-							end
-						else
-							repeat_flag = false;
-							decode_status(obj)
-						end
-					otherwise
-						if obj.debug
-							warning('THIS MESSAGE IS JUST FOR DEBUGING!')
-							disp(obj.ID_R)
-							repeat_flag = true;
-						end
-				end
-			end
-		end
-		
 		%DecodePayload
 		%This function is used in every public method. It depends on Type,
 		%TypeLength, number of commands, and symbolname which is given
 		%inside the public functions
-		function decode_payload(obj,Type,TypeLength,Num_CMD,symbol)
+		function decode_payload(obj,ID,Type,TypeLength,Num_CMD,symbol)
 			end_idx = 0;
 			for i = 1:Num_CMD
 				if i == 1
