@@ -213,12 +213,7 @@ classdef wsg50 < handle
 					obj.buffer = [];
 					obj.boolean_struct.PAYLOAD = false;
 					obj.boolean_struct.CRC = true;
-					decode_payload(obj, ...
-										dec2hex(obj.ID_R,2), ...
-										obj.decodeprop.Type, ...
-										obj.decodeprop.TypeLength, ...
-										obj.decodeprop.Num_CMD, ...
-										obj.decodeprop.symbol);
+					decode_payload(obj, strcat('ID_',dec2hex(obj.ID_R,2)));
 					if obj.verbose
 						disp(strcat(obj.decodeprop.name, num2str(obj.status.ACC),obj.decodeprop.unit))
 					end
@@ -386,8 +381,13 @@ classdef wsg50 < handle
 		%This function is used in every public method. It depends on Type,
 		%TypeLength, number of commands, and symbolname which is given
 		%inside the public functions
-		function decode_payload(obj,ID,Type,TypeLength,Num_CMD,symbol)
+		function decode_payload(obj,ID)
 			end_idx = 0;
+			%Read the Values from Table for specific ID
+			Num_CMD = obj.msg_table.respond_value_tbl.Num_CMD(ID);
+			Type = obj.msg_table.respond_value_tbl.Type{ID};
+			TypeLength = obj.msg_table.respond_value_tbl.TypeLength{ID};
+			Symbol = obj.msg_table.respond_value_tbl.Symbol{ID};
 			for i = 1:Num_CMD
 				if i == 1
 					PreviousLength = 1;
@@ -399,28 +399,28 @@ classdef wsg50 < handle
 				
 				switch Type{i}
 					case 'INTEGER'
-						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
+						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						tmp_int = 0;
 						for j = 1:length(dec_str)
 							tmp_int =  tmp_int + dec_str(j)*255^(j-1);
 						end
-						if iscellstr(symbol)
-							obj.status.(symbol{i}) = tmp_int;
+						if iscellstr(Symbol)
+							obj.status.(Symbol{i}) = tmp_int;
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'FLOAT'    %TypeLength not used for FLOAT ??? What did I mean
-						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
+						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
-						if iscellstr(symbol)
-							obj.status.(symbol{i})= typecast(uint8(dec_str),'single');
+						if iscellstr(Symbol)
+							obj.status.(Symbol{i})= typecast(uint8(dec_str),'single');
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'STRING'
 					case 'BITVEC'
-						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
+						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						dec_str = de2bi(dec_str);
 						tmp_bivec = zeros(1,4*length(dec_str));
@@ -436,7 +436,7 @@ classdef wsg50 < handle
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'ENUM'
-						dec_str = obj.msg_table.msg_tbl.(strcat('ID_',ID)).PAYLOAD';
+						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						if iscellstr(symbol)
 							obj.status.(symbol{i})= dec_str;
