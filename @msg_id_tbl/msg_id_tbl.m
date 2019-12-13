@@ -44,6 +44,16 @@ classdef msg_id_tbl < handle
 				'RowNames',Rows);
 		end
 		
+		function FillRespondTable(obj)
+			%Fill Respond of Command ID 06h
+			obj.respond_value_tbl.Type{1} = {'INTEGER'};
+			obj.respond_value_tbl.TypeLength{1} = 5; %NEED TO BE FIXED
+			obj.respond_value_tbl.Num_CMD(1) = 1;
+			obj.respond_value_tbl.Symbol{1} = {'LOOPDATA'};
+			obj.respond_value_tbl.Name{1} = {'Your Entry: '};
+			obj.respond_value_tbl.Unit{1} = {''};
+		end
+		
 		function new_ID(obj,ID_num)
 			%METHOD1 Summary of this method goes here
 			%   Detailed explanation goes here
