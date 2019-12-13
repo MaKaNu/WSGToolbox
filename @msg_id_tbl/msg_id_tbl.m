@@ -5,13 +5,21 @@ classdef msg_id_tbl < handle
 	properties
 		active
 		msg_tbl = struct;
+		respond_value_tbl;
+		IDs
 	end
 	
 	methods
-		function obj = mag_id_tbl(varargin)
+		function obj = msg_id_tbl(varargin)
 			%MAG_ID_TBL Construct an instance of this class
 			%   Detailed explanation goes here
 			obj.active = true;
+			Types = {'cell','cell','int8','cell','cell','cell'};
+			Names = {'Type','TypeLength','Num_CMD','Symbol','Name','Unit'};
+			obj.CreateRespondTable(Types,Names)
+			obj.FillRespondTable()
+			
+		end
 		end
 		
 		function new_ID(obj,ID_num)
