@@ -214,9 +214,6 @@ classdef wsg50 < handle
 					obj.boolean_struct.PAYLOAD = false;
 					obj.boolean_struct.CRC = true;
 					decode_payload(obj, strcat('ID_',dec2hex(obj.ID_R,2)));
-					if obj.verbose
-						disp(strcat(obj.decodeprop.name, num2str(obj.status.ACC),obj.decodeprop.unit))
-					end
 				end
 			elseif obj.boolean_struct.CRC
 				if size(obj.buffer,2) == 2
@@ -388,6 +385,8 @@ classdef wsg50 < handle
 			Type = obj.msg_table.respond_value_tbl.Type{ID};
 			TypeLength = obj.msg_table.respond_value_tbl.TypeLength{ID};
 			Symbol = obj.msg_table.respond_value_tbl.Symbol{ID};
+			Name = obj.msg_table.respond_value_tbl.Name{ID};
+			Unit = obj.msg_table.respond_value_tbl.Unit{ID};
 			for i = 1:Num_CMD
 				if i == 1
 					PreviousLength = 1;
@@ -444,6 +443,10 @@ classdef wsg50 < handle
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					otherwise
+				end
+				%Display if Verbose
+				if obj.verbose
+					disp(strcat(Name{i}, num2str(obj.status.(Symbol{i})),Unit{i}))
 				end
 			end
 		end
