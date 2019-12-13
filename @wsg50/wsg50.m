@@ -429,16 +429,16 @@ classdef wsg50 < handle
 							a=a+8;
 							b=b+8;
 						end
-						if iscellstr(symbol)
-							obj.status.(symbol{i})= fliplr(tmp_bivec);
+						if iscellstr(Symbol)
+							obj.status.(Symbol{i})= fliplr(tmp_bivec);
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'ENUM'
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
-						if iscellstr(symbol)
-							obj.status.(symbol{i})= dec_str;
+						if iscellstr(Symbol)
+							obj.status.(Symbol{i})= dec_str;
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
