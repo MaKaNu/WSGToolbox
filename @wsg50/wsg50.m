@@ -198,6 +198,7 @@ classdef wsg50 < handle
 					obj.buffer = [];
 					obj.boolean_struct.LENGTH = false;
 					obj.boolean_struct.STATUS = true;
+					obj.CorrectMsgLength()
 				end
 			elseif obj.boolean_struct.STATUS
 				if size(obj.buffer,2) == 2
@@ -246,6 +247,20 @@ classdef wsg50 < handle
 			low_b = obj.msg_table.msg_tbl.(strcat('ID_',dec2hex(ID,2))).LENGTH(1);
 			high_b = obj.msg_table.msg_tbl.(strcat('ID_',dec2hex(ID,2))).LENGTH(2);
 			payload_l = low_b + high_b;
+		end
+		
+		%Correct the messageslength in respond table if necesssary 
+		function CorrectMsgLength(obj)
+			table = obj.msg_table.respond_value_tbl;
+			ID_hex = strcat('ID_',dec2hex(obj.ID_R,2));
+			try
+				table_size = table{ID_hex,'TypeLength'}{:}{:};
+				msg_size = obj.calc_payload(obj.ID_R)-2;
+				if msg_size ~= table_size
+					obj.msg_table.respond_value_tbl{ID_hex,'TypeLength'}{:}={msg_size};
+				end
+			catch
+			end
 		end
 		
 		%Convert Data
