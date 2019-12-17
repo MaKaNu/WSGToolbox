@@ -433,7 +433,7 @@ classdef wsg50 < handle
 						for j = 1:length(dec_str)
 							tmp_int =  tmp_int + dec_str(j)*255^(j-1);
 						end
-						if iscellstr(isstring(Symbol))
+						if iscell(Symbol) && ischar(Symbol{i})
 							obj.status.(Symbol{i}) = tmp_int;
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
@@ -441,7 +441,7 @@ classdef wsg50 < handle
 					case 'FLOAT'    %TypeLength not used for FLOAT ??? What did I mean
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
-						if iscellstr(isstring(Symbol))
+						if iscell(Symbol)  && ischar(Symbol{i})
 							obj.status.(Symbol{i})= typecast(uint8(dec_str),'single');
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
@@ -458,7 +458,7 @@ classdef wsg50 < handle
 							a=a+8;
 							b=b+8;
 						end
-						if iscellstr(isstring(Symbol))
+						if iscell(Symbol) && ischar(Symbol{i})
 							obj.status.(Symbol{i})= fliplr(tmp_bivec);
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
@@ -466,7 +466,7 @@ classdef wsg50 < handle
 					case 'ENUM'
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
-						if iscellstr(isstring(Symbol))
+						if iscell(Symbol) && ischar(Symbol{i})
 							obj.status.(Symbol{i})= dec_str;
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
