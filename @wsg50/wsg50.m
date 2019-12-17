@@ -178,6 +178,9 @@ classdef wsg50 < handle
 		%in the buffer and resets the buffer to the second consecutive triple
 		%"AA"
 		function sort_buffer(obj)
+			if obj.debug
+			disp(obj.buffer)
+			end
 			if obj.buffer(1) == 170
 				if size(obj.buffer,2) == 3 && sum(obj.buffer==170) == 3
 					obj.buffer = [];
