@@ -14,10 +14,6 @@ if isfield(obj.msg_table.msg_tbl, 'ID_35')
 	end
 end
 
-if obj.status.LIMITS==false
-	warning('No softlimits set. Command will not be executed.')
-end
-
 if ErrorCode == 0
 	obj.ID = '35';                              %ID get Force
 	obj.Payload = ['00'; '00'];                 %Payload length Acc
