@@ -20,7 +20,7 @@ classdef msg_id_tbl < handle
 		
 		function LoadRespondTable(obj)
 			tmp = load('data\respond.mat');
-			obj.respond_value_tbl = tmp.T;
+			obj.respond_value_tbl = tmp.RespondTable;
 		end
 		
 		function new_ID(obj,ID_num)
