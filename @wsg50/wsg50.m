@@ -223,9 +223,20 @@ classdef wsg50 < handle
 					obj.msg_table.enter_ID_val(obj.ID_R,'CRC',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.CRC = false;
+					obj.CheckStatus()
 				end
 			else
-				warning('RECEIVED BYTES ARE NO EXPECTED')
+				warning('RECEIVED BYTES ARE NO EXPECTED. Buffer will be cleaned.')
+				obj.buffer = [];
+			end
+		end
+		
+		%Check if Status isnot 0 0
+		function CheckStatus(obj)
+% 			ID_ = strcat('ID_',dec2hex(obj.ID_R,2));
+% 			status_ = obj.msg_table.msg_tbl.(ID_).STATUS;
+			if obj.verbose
+				obj.decode_status(dec2hex(obj.ID_R,2))
 			end
 		end
 		
