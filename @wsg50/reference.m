@@ -3,26 +3,35 @@
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
 
-function reference(Obj,direction)
-    ErrorCode = 0;
+function reference(obj,direction)
 
-    switch direction
-        case 'open'
-            cmd = '01';
-        case 'close'
-            cmd = '02';
-        otherwise
-            cmd = '00';
-    end
 
-    if ErrorCode == 0
-        Obj.ID = '20';                      %ID Graps
-        Obj.Payload = ['01'; '00'];         %Payload length
-        Obj.Command = cmd;                  %Speed in Enum Little Endian
+%Initial Error Check
+ErrorCode = 0;
+if isfield(obj.msg_table.msg_tbl, 'ID_20')
+	if ~(obj.msg_table.msg_tbl.ID_20.STATUS == 0)
+		obj.decode_status('20')
+		ErrorCode = 1;
+	end
+end
 
-        DataEncode(Obj);
-        DataSend(Obj);
-        command_complete(Obj);
-    end
+switch direction
+	case 'open'
+		cmd = '01';
+	case 'close'
+		cmd = '02';
+	otherwise
+		cmd = '00';
+end
+
+if ErrorCode == 0
+	obj.ID = '20';                      %ID Graps
+	obj.Payload = ['01'; '00'];         %Payload length
+	obj.Command = cmd;                  %Speed in Enum Little Endian
+	
+	DataEncode(obj);
+	DataSend(obj);
+
+end
 
 end

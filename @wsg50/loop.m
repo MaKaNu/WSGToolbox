@@ -21,7 +21,7 @@ if not(size(testdata,1)==1) || ~ischar(testdata)
 	ErrorCode = 2;
 end
 try
-	hex2dec(testdata)
+	hex2dec(testdata);
 catch
 	error('testdata should have just 0-9, a-f, or A-F.')
 end
