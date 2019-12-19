@@ -181,7 +181,8 @@ classdef wsg50 < handle
 			if obj.debug
 			disp(obj.buffer)
 			end
-			if obj.buffer(1) == 170
+			b = obj.boolean_struct;
+			if obj.buffer(1) == 170 && ~any(struct2array(b))
 				if size(obj.buffer,2) == 3 && sum(obj.buffer==170) == 3
 					obj.buffer = [];
 					obj.boolean_struct.ID = true;
