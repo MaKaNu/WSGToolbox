@@ -255,7 +255,7 @@ classdef wsg50 < handle
 			table = obj.msg_table.respond_value_tbl;
 			ID_hex = strcat('ID_',dec2hex(obj.ID_R,2));
 			try
-				table_size = table{ID_hex,'TypeLength'}{:}{:};
+				table_size = sum([table{ID_hex,'TypeLength'}{:}{:}]);
 				msg_size = obj.calc_payload(obj.ID_R)-2;
 				if msg_size ~= table_size
 					obj.msg_table.respond_value_tbl{ID_hex,'TypeLength'}{:}={msg_size};
