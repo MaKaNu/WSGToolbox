@@ -451,7 +451,7 @@ classdef wsg50 < handle
 					case 'BITVEC'
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
-						dec_str = de2bi(dec_str);
+						dec_str = de2bi(dec_str,8);
 						tmp_bivec = zeros(1,4*length(dec_str));
 						a=1;b=8;
 						for j = 1:size(dec_str,1)
