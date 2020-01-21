@@ -5,6 +5,8 @@
 
 function position(obj,flags,width,speed)
 
+ErrorCode = 0;
+
 %Flags Input check
 switch flags
 	case 'jam_abs'

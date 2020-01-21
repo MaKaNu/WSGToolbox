@@ -5,6 +5,7 @@
 
 function gripper_state(obj,change, automatic,time)
 
+ErrorCode = 0;
 %Data Check and Adjustment
 switch length(num2str(time))
 	case 2

@@ -5,6 +5,7 @@
 
 function loop(obj,testdata)
 
+ErrorCode = 0;
 DataLength = length(testdata);
 
 if not(size(testdata,1)==1) || ~ischar(testdata)

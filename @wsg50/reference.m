@@ -5,6 +5,8 @@
 
 function reference(obj,direction)
 
+ErrorCode = 0;
+
 switch direction
 	case 'open'
 		cmd = '01';

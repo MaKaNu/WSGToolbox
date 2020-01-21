@@ -5,6 +5,8 @@
 
 function set_force(obj,force)
 
+ErrorCode = 0;
+
 if (isa(force,'double') || isa(force,'single'))
 	if not(force<=80.0 && force >= 5.0)
 		if (force > 80 && obj.status.OVERDRIVE)

@@ -5,6 +5,7 @@
 
 function sys_state(obj,change, automatic,time)
 
+ErrorCode = 0;
 if isnumeric(time) && (9999 >= time) && (time >= 10)
 	switch length(num2str(time))
 		case 2

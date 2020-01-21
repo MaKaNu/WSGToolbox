@@ -4,6 +4,8 @@
 
 function ack(obj)
 
+ErrorCode = 0;
+
 if ErrorCode == 0
 	obj.ID = '24';                              %ID Graps
 	obj.Payload = ['03'; '00'];                 %Payload length grasp

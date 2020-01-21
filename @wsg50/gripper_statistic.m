@@ -5,6 +5,8 @@
 
 function gripper_statistic(obj,reset)
 
+ErrorCode = 0;
+
 if ErrorCode == 0
 	obj.ID = '42';                              %ID systemstate
 	obj.Payload = ['01'; '00'];                 %Payload length systemstate

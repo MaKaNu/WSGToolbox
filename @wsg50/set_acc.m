@@ -5,6 +5,8 @@
 
 function set_acc(obj,acc)
 
+ErrorCode = 0;
+
 if (isa(acc,'double') || isa(acc,'single'))
 	if not(acc<=5000.0 && acc >= 100.0)
 		warning('Warning: Acceleration set to min or max.');

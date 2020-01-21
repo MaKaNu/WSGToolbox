@@ -5,6 +5,8 @@
 
 function release(obj,width,speed)
 
+ErrorCode = 0;
+
 if isa(width,'double') || isa(width,'single')
 	if width<=110.0 && width >= 0.0
 		width_hex = num2hex(single(width));
