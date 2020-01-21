@@ -5,15 +5,6 @@
 
 function set_softlimits(obj,minus_limit,plus_limit)
 
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_34')
-	if ~(obj.msg_table.msg_tbl.ID_34.STATUS == 0)
-		obj.decode_status('34')
-		ErrorCode = 1;
-	end
-end
-
 if (isa(minus_limit,'double') || isa (minus_limit, 'single'))
 	if minus_limit<=110.0 && minus_limit >= 0.0
 		minus_hex = num2hex(single(minus_limit));

@@ -5,16 +5,6 @@
 
 function gripper_state(obj,change, automatic,time)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_41')
-	if ~(obj.msg_table.msg_tbl.ID_41.STATUS == 0)
-		obj.decode_status('41')
-		ErrorCode = 1;
-	end
-end
-
 %Data Check and Adjustment
 switch length(num2str(time))
 	case 2
@@ -48,29 +38,29 @@ if ErrorCode == 0
 	
 	DataEncode(obj);
 	DataSend(obj);
-
-% 	if obj.verbose
-% 		disp(strcat('GRIPPER STATUS: ', num2str(obj.status.GSTATE)))
-% 		switch obj.status.GSTATE
-% 			case 0
-% 				disp('IDLE')
-% 			case 1
-% 				disp('GRASPING')
-% 			case 2
-% 				disp('NO PART FOUND')
-% 			case 3
-% 				disp('PART LOST')
-% 			case 4
-% 				disp('HOLDING')
-% 			case 5
-% 				disp('RELEASING')
-% 			case 6
-% 				disp('POSITIONING')
-% 			case 7
-% 				disp('ERROR')
-% 			otherwise
-% 				disp('RESERVED')
-% 		end
-% 	end
+	
+	% 	if obj.verbose
+	% 		disp(strcat('GRIPPER STATUS: ', num2str(obj.status.GSTATE)))
+	% 		switch obj.status.GSTATE
+	% 			case 0
+	% 				disp('IDLE')
+	% 			case 1
+	% 				disp('GRASPING')
+	% 			case 2
+	% 				disp('NO PART FOUND')
+	% 			case 3
+	% 				disp('PART LOST')
+	% 			case 4
+	% 				disp('HOLDING')
+	% 			case 5
+	% 				disp('RELEASING')
+	% 			case 6
+	% 				disp('POSITIONING')
+	% 			case 7
+	% 				disp('ERROR')
+	% 			otherwise
+	% 				disp('RESERVED')
+	% 		end
+	% 	end
 end
 end

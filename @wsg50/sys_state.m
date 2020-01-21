@@ -5,16 +5,6 @@
 
 function sys_state(obj,change, automatic,time)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_40')
-	if ~(obj.msg_table.msg_tbl.ID_40.STATUS == 0)
-		obj.decode_status('40')
-		ErrorCode = 1;
-	end
-end
-
 if isnumeric(time) && (9999 >= time) && (time >= 10)
 	switch length(num2str(time))
 		case 2
@@ -32,8 +22,6 @@ if isnumeric(time) && (9999 >= time) && (time >= 10)
 else
 	error('time interval has to be between 10 and 9999!')
 end
-
-
 
 
 if ErrorCode == 0

@@ -5,16 +5,6 @@
 
 function position(obj,flags,width,speed)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_21')
-	if ~(obj.msg_table.msg_tbl.ID_21.STATUS == 0)
-		obj.decode_status('21')
-		ErrorCode = 1;
-	end
-end
-
 %Flags Input check
 switch flags
 	case 'jam_abs'
@@ -91,7 +81,7 @@ if isa(speed,'double') || isa(speed,'single')
 			spd3 = speed_hex(3:4);...
 			spd4 = speed_hex(1:2);
 	else
-		error(strcat('ERROR: Input-value is not inside',... 
+		error(strcat('ERROR: Input-value is not inside',...
 			' the accepted range.',...
 			' Error-Code #21002'))
 		ErrorCode = 1;
@@ -111,7 +101,7 @@ if ErrorCode == 0
 	
 	DataEncode(obj);
 	DataSend(obj);
-
+	
 end
 end
 

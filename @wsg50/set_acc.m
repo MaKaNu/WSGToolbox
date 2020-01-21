@@ -5,16 +5,6 @@
 
 function set_acc(obj,acc)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_30')
-	if ~(obj.msg_table.msg_tbl.ID_30.STATUS == 0)
-		obj.decode_status('30')
-		ErrorCode = 1;
-	end
-end
-
 if (isa(acc,'double') || isa(acc,'single'))
 	if not(acc<=5000.0 && acc >= 100.0)
 		warning('Warning: Acceleration set to min or max.');
@@ -34,7 +24,7 @@ if ErrorCode == 0
 	
 	DataEncode(obj);
 	DataSend(obj);
-
+	
 end
 end
 

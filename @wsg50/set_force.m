@@ -5,16 +5,6 @@
 
 function set_force(obj,force)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_32')
-	if ~(obj.msg_table.msg_tbl.ID_32.STATUS == 0)
-		obj.decode_status('32')
-		ErrorCode = 1;
-	end
-end
-
 if (isa(force,'double') || isa(force,'single'))
 	if not(force<=80.0 && force >= 5.0)
 		if (force > 80 && obj.status.OVERDRIVE)
@@ -26,7 +16,7 @@ if (isa(force,'double') || isa(force,'single'))
 	force_hex = num2hex(single(force));
 	force1 = force_hex(7:8);
 	force2 = force_hex(5:6);
-	force3 = force_hex(3:4); 
+	force3 = force_hex(3:4);
 	force4 = force_hex(1:2);
 else
 	error(strcat('ERROR: Variable-Type is not correct.',...

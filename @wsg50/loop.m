@@ -4,16 +4,8 @@
 
 
 function loop(obj,testdata)
-DataLength = length(testdata);
 
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_06')
-	if ~(obj.msg_table.msg_tbl.ID_06.STATUS == 0)
-		obj.decode_status('06')
-		ErrorCode = 1;
-	end
-end
+DataLength = length(testdata);
 
 if not(size(testdata,1)==1) || ~ischar(testdata)
 	error(strcat('ERROR: Testdata has to be 1xN char.',...

@@ -5,16 +5,6 @@
 
 function grasp(obj,width,speed)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_25')
-	if ~(obj.msg_table.msg_tbl.ID_25.STATUS == 0)
-		obj.decode_status('25')
-		ErrorCode = 1;
-	end
-end
-
 if (isa(width,'double') || isa (width, 'single'))
 	if width<=110.0 && width >= 0.0
 		width_hex = num2hex(single(width));
@@ -59,7 +49,7 @@ if ErrorCode == 0
 	
 	DataEncode(obj);
 	DataSend(obj);
-
+	
 end
 end
 

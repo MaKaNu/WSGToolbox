@@ -5,15 +5,10 @@
 
 function overdrive(obj,bool)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_37')
-	if ~(obj.msg_table.msg_tbl.ID_37.STATUS == 0)
-		obj.decode_status('37')
-		ErrorCode = 1;
-	end
-end
+%%%%%% DEPRECATED %%%%%%% 
+ErrorCode = 1;
+error('This function is deprecated and will no longer be supported')
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 switch bool
 	case 1

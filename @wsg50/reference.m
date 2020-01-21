@@ -5,16 +5,6 @@
 
 function reference(obj,direction)
 
-
-%Initial Error Check
-ErrorCode = 0;
-if isfield(obj.msg_table.msg_tbl, 'ID_20')
-	if ~(obj.msg_table.msg_tbl.ID_20.STATUS == 0)
-		obj.decode_status('20')
-		ErrorCode = 1;
-	end
-end
-
 switch direction
 	case 'open'
 		cmd = '01';
@@ -31,7 +21,7 @@ if ErrorCode == 0
 	
 	DataEncode(obj);
 	DataSend(obj);
-
+	
 end
 
 end
