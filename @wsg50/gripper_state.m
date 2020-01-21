@@ -6,6 +6,7 @@
 function gripper_state(obj,change, automatic,time)
 
 ErrorCode = 0;
+
 %Data Check and Adjustment
 switch length(num2str(time))
 	case 2
@@ -33,6 +34,8 @@ if ErrorCode == 0
 		warning('Just Because something is possible, doesnt mean it is usefull!')
 	elseif automatic
 		obj.Command = ['01';time_];
+		error(strcat('This will sent messages every timeinterval that ',...
+			'may block your system. Choose another option!'))
 	else
 		obj.Command = ['00';time_];
 	end
