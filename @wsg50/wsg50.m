@@ -15,7 +15,10 @@ classdef wsg50 < handle
 	% $Author: Matti Kaupenjohann $
 	% $Date: 2019/11/26 $
 	
-	
+	%HIDDEN
+	properties (Hidden)
+		cleanup
+	end
 	
 	%CONSTANTS & PRIVATES
 	properties (Constant, Access = private)
@@ -96,20 +99,23 @@ classdef wsg50 < handle
 				obj.connect();
 				disp('Connection is open!')
 			end
+			
+			% Cleanup
+			obj.cleanup = onCleanup(@()delete(obj));
 		end
+			
+	end
+	
+	%PRIVATE METHODS
+	methods (Access = private)
 		
-		%DECONSTRUCTER
-		function delete(obj)
+		%DESTRUCTER
+		function obj = delete(obj)
 			if strcmp(obj.TCPIP.Status,'open')
 				obj.disconnect
 			end
 			instrreset
 		end
-		
-	end
-	
-	%PRIVATE METHODS
-	methods (Access = private)
 		
 		%Check varargins greater then 2
 		function check_vars(obj,classvars)
