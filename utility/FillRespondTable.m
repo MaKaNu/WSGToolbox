@@ -121,7 +121,7 @@ function RespondTable = FillRespondTable(RespondTable)
 			
 			%Fill Respond of Command ID 46h
 			RespondTable{'ID_46','Type'}{:} = {
-				'FLOAT'};
+				'INTEGER'};
 			RespondTable{'ID_46','TypeLength'}{:} = {2}; 
 			NUM_CMD = size(RespondTable{'ID_46','Type'}{:},2);
 			RespondTable{'ID_46','Num_CMD'} = NUM_CMD;
