@@ -111,6 +111,7 @@ classdef wsg50 < handle
 		
 		%DESTRUCTER
 		function obj = delete(obj)
+			fprintf('################# Hey I am deleted! #################\n')
 			if strcmp(obj.TCPIP.Status,'open')
 				obj.disconnect
 			end
@@ -493,10 +494,11 @@ classdef wsg50 < handle
 		%TCP Callback
 		%This function will be called if one Byte is available at the TCPIP
 		%buffer.
-		function TCP_Callback(tcpsocket,event,obj)
-			obj.DataReceive()
-			if ~isempty(obj.buffer)
-				obj.sort_buffer()
+		function TCP_Callback(tcpsocket,event,o)
+			fprintf('################# Hey I am called! #################\n')
+			o.DataReceive()
+			if ~isempty(o.buffer)
+				o.sort_buffer()
 			end
 		end
 	end
