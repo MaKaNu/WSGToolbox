@@ -2,10 +2,10 @@
 
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
-function connect(Obj)
+function connect(obj)
 
-    if strcmp(Obj.TCPIP.status,'closed')
-        fopen(Obj.TCPIP);
+    if strcmp(obj.TCPIP.status,'closed')
+        fopen(obj.TCPIP);
     else
         warning('Connection is already established!')
     end

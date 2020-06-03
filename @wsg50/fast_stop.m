@@ -2,19 +2,16 @@
 
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
+function fast_stop(obj)
 
-function fast_stop(Obj)
+ErrorCode = 0;
 
-    %Flags Input check
-    ErrorCode = 0;
-
-    if ErrorCode == 0
-            Obj.ID = '23';                              %ID Graps
-            Obj.Payload = ['00'; '00'];                 %Payload length grasp
-            Obj.Command = [];                           %No Command
-
-            DataEncode(Obj);
-            DataSend(Obj);
-            command_complete(Obj);
-    end
+if ErrorCode == 0
+	obj.ID = '23';                              %ID Graps
+	obj.Payload = ['00'; '00'];                 %Payload length grasp
+	obj.Command = [];                           %No Command
+	
+	DataEncode(obj);
+	DataSend(obj);
+end
 end

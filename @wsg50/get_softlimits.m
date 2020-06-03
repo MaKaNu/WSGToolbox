@@ -3,34 +3,18 @@
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
 
-function get_softlimits(Obj)
+function get_softlimits(obj)
 
-    %TYPE CHECK
-    ErrorCode = 0;
-    
-    %create vars for Decode_payload function 
-    Type = {'FLOAT', 'FLOAT'};
-    TypeLength = {4,4};
-    Num_CMD = size(Type,2);
-    symbol = {'LIMIT_MINUS', 'LIMIT_PLUS'};
-    if Obj.status.LIMITS==false
-        warning('No softlimits set. Command will not be executed.')
-        ErrorCode = 1;
-    end
-    
-    if ErrorCode == 0
-        Obj.ID = '35';                              %ID get Force
-        Obj.Payload = ['00'; '00'];                 %Payload length Acc
-        Obj.Command = [];                           %no Payload
+ErrorCode = 0;
 
-        DataEncode(Obj);
-        DataSend(Obj);
-        command_complete(Obj);
-        decode_payload(Obj,Type,TypeLength,Num_CMD,symbol);
-        if Obj.verbose
-            disp(strcat('LIMIT MINUS:', num2str(Obj.status.LIMIT_MINUS),' mm'))
-            disp(strcat('LIMIT PLUS:', num2str(Obj.status.LIMIT_PLUS),' mm'))
-        end
-    end
+if ErrorCode == 0
+	obj.ID = '35';                              %ID get Force
+	obj.Payload = ['00'; '00'];                 %Payload length Acc
+	obj.Command = [];                           %no Payload
+	
+	DataEncode(obj);
+	DataSend(obj);
+
 end
-            
+end
+

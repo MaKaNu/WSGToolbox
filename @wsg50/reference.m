@@ -3,26 +3,27 @@
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
 
-function reference(Obj,direction)
-    ErrorCode = 0;
+function reference(obj,direction)
 
-    switch direction
-        case 'open'
-            cmd = '01';
-        case 'close'
-            cmd = '02';
-        otherwise
-            cmd = '00';
-    end
+ErrorCode = 0;
 
-    if ErrorCode == 0
-        Obj.ID = '20';                      %ID Graps
-        Obj.Payload = ['01'; '00'];         %Payload length
-        Obj.Command = cmd;                  %Speed in Enum Little Endian
+switch direction
+	case 'open'
+		cmd = '01';
+	case 'close'
+		cmd = '02';
+	otherwise
+		cmd = '00';
+end
 
-        DataEncode(Obj);
-        DataSend(Obj);
-        command_complete(Obj);
-    end
+if ErrorCode == 0
+	obj.ID = '20';                      %ID Graps
+	obj.Payload = ['01'; '00'];         %Payload length
+	obj.Command = cmd;                  %Speed in Enum Little Endian
+	
+	DataEncode(obj);
+	DataSend(obj);
+	
+end
 
 end

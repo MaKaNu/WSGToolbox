@@ -3,32 +3,34 @@
 %   Copyright 2019 Fachhochschule Dortmund LIT
 
 
-function overdrive(Obj,bool)
+function overdrive(obj,bool)
 
-    %TYPE CHECK
-    ErrorCode = 0;
+%%%%%% DEPRECATED %%%%%%% 
+ErrorCode = 1;
+error('This function is deprecated and will no longer be supported')
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    switch bool
-        case 1
-            flag_vec = [0 0 0 0 0 0 0 1];
-            warning('Use overdrivemode carefully. Could cause destruction.')
-            Obj.status.OVERDRIVE = true;
-        case 0
-            flag_vec = [0 0 0 0 0 0 0 0];
-            Obj.status.OVERDRIVE = false;
-        otherwise            
-            error(strcat('ERROR: Variable-Type is not correct.',...
-                 ' Error-Code #37001'))
-            ErrorCode = 1;
-    end
-    
-    if ErrorCode == 0
-        Obj.ID = '37';                                      %ID set Force
-        Obj.Payload = ['01'; '00'];                         %Payload length Force
-        Obj.Command = binaryVectorToHex(flag_vec);          %Force in Float Little Endian
+switch bool
+	case 1
+		flag_vec = [0 0 0 0 0 0 0 1];
+		warning('Use overdrivemode carefully. Could cause destruction.')
+		obj.status.OVERDRIVE = true;
+	case 0
+		flag_vec = [0 0 0 0 0 0 0 0];
+		obj.status.OVERDRIVE = false;
+	otherwise
+		error(strcat('ERROR: Variable-Type is not correct.',...
+			' Error-Code #37001'))
+		ErrorCode = 1;
+end
 
-        DataEncode(Obj);
-        DataSend(Obj);
-        command_complete(Obj);
-    end
+if ErrorCode == 0
+	obj.ID = '37';                                      %ID set Force
+	obj.Payload = ['01'; '00'];                         %Payload length Force
+	obj.Command = binaryVectorToHex(flag_vec);          %Force in Float Little Endian
+	
+	DataEncode(obj);
+	DataSend(obj);
+
+end
 end
