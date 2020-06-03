@@ -10,15 +10,10 @@ classdef wsg50 < handle
 	%   - 'debug'
 	%   - 'autoopen'
 	
-	%   Copyright 2019 Fachhochschule Dortmund LIT
-	% $Revision: 0.2.1 $
+	%   Copyright 2020 Fachhochschule Dortmund LIT
+	% $Revision: 0.3.0 $
 	% $Author: Matti Kaupenjohann $
 	% $Date: 2019/11/26 $
-	
-	%HIDDEN
-	properties (Hidden)
-		cleanup
-	end
 	
 	%CONSTANTS & PRIVATES
 	properties (Constant, Access = private)
@@ -39,6 +34,10 @@ classdef wsg50 < handle
 		buffer                  %Memory for received Data
 		boolean_struct = struct;%Struct for message boolean values
 		decodeprop = struct;		%struct for decoding msgs
+		
+		TCPIP                   % TCPIP-objekt
+		TCPIPWrapper				% Wrapper for the TCP Callback
+		LH								% Event Listener for TCP Callback
 	end
 	
 	%PUBLICS
@@ -46,9 +45,8 @@ classdef wsg50 < handle
 		msg_table
 		IP
 		PORT
-		TCPIP                   %TCPIP-objekt
-		verbose                 %Boolean for info messages
-		debug                   %Boolean for debugging enviroment
+		verbose                 % Boolean for info messages
+		debug                   % Boolean for debugging enviroment
 		%Status variable for different ???
 		status = struct('OVERDRIVE',false,'LIMITS',false);
 	end
@@ -58,6 +56,7 @@ classdef wsg50 < handle
 		
 		%CONSTRUCTOR
 		function obj = wsg50(varargin)
+			disp 'CONSTRUCTED wsg50'
 			
 			%Set Standards
 			obj.IP = 'localhost';
@@ -88,36 +87,49 @@ classdef wsg50 < handle
 					obj.check_vars(varargin)
 			end
 			
+			% Create TCP Object
+			obj.TCPIP = tcpip(obj.IP,obj.PORT);
+			
+			% Create Callback Wrapper
+			obj.TCPIPWrapper = tcpipCallbackWrapper(obj.TCPIP);
+			
+			% Create Callback Event Listener
+			obj.LH = listener(obj.TCPIPWrapper,'BytesAvailableFcn',@obj.onBytes);
+			
+			% Configure TCPIP Objekt
 			obj.conf_conn();
 			
-			%Setting up Callbackfunction
-			obj.TCPIP.BytesAvailableFcnMode = 'byte';
-			obj.TCPIP.BytesAvailableFcnCount = 1;
-			obj.TCPIP.BytesAvailableFcn = {@obj.TCP_Callback, obj};
+			% Initialize Boolean struct
 			obj.init_b_struct();
+			
+			% Open the connection
 			if obj.autoopen
 				obj.connect();
 				disp('Connection is open!')
 			end
 			
-			% Cleanup
-			obj.cleanup = onCleanup(@()delete(obj));
 		end
+		
+		%DESTRUCTER
+		function delete(obj)
+			disp 'DESTRUCTED wsg50'
 			
+			if strcmp(obj.TCPIP.Status,'open')
+				obj.disconnect
+			end
+			
+			% Destroy Listener
+			delete(obj.LH);
+			% destroy Wrapper
+			delete(obj.TCPIPWrapper);
+			
+ 			instrreset
+		end
+					
 	end
 	
 	%PRIVATE METHODS
 	methods (Access = private)
-		
-		%DESTRUCTER
-		function obj = delete(obj)
-			fprintf('################# Hey I am deleted! #################\n')
-			if strcmp(obj.TCPIP.Status,'open')
-				obj.disconnect
-			end
-			instrreset
-		end
-		
 		%Check varargins greater then 2
 		function check_vars(obj,classvars)
 			n=3;
@@ -139,7 +151,6 @@ classdef wsg50 < handle
 		
 		%Create TCPIP object
 		function conf_conn(obj)
-			obj.TCPIP = tcpip(obj.IP,obj.PORT);
 			obj.TCPIP.OutputBufferSize = 3000;
 			obj.TCPIP.InputBufferSize = 3000;
 			obj.TCPIP.ByteOrder = 'littleEndian';
@@ -154,7 +165,7 @@ classdef wsg50 < handle
 			obj.boolean_struct.STATUS = false;
 			obj.boolean_struct.PAYLOAD = false;
 			obj.boolean_struct.CRC = false;
-		end
+		end	
 		
 		%Receive Data
 		%This function is only used by the method ReadCommand. If Bytes are
@@ -487,18 +498,18 @@ classdef wsg50 < handle
 				end
 			end
 		end
-	end
-	
-	%STATIC METHODS
-	methods (Static)
-		%TCP Callback
-		%This function will be called if one Byte is available at the TCPIP
-		%buffer.
-		function TCP_Callback(tcpsocket,event,o)
-			fprintf('################# Hey I am called! #################\n')
-			o.DataReceive()
-			if ~isempty(o.buffer)
-				o.sort_buffer()
+		
+		% Listener Function
+		% This Function will be called if the Event Listener receives the
+		% notification from the CallbackWrapper that the BytesAvailableEvent
+		% was triggered
+		function onBytes(obj, ~, ~)
+			if obj.debug
+				disp 'One Byte Available'
+			end
+			obj.DataReceive()
+			if ~isempty(obj.buffer)
+				obj.sort_buffer()
 			end
 		end
 	end
