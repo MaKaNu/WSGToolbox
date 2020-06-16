@@ -6,6 +6,7 @@ classdef msg_id_tbl < handle
 		active
 		msg_tbl = struct;
 		respond_value_tbl;
+		crc_16_lut
 		IDs
 	end
 	
@@ -15,12 +16,18 @@ classdef msg_id_tbl < handle
 			%   Detailed explanation goes here
 			obj.active = true;
 			obj.LoadRespondTable()
+			obj.LoadCRC16LUT()
 			
 		end
 		
 		function LoadRespondTable(obj)
 			tmp = load('data\respond.mat');
 			obj.respond_value_tbl = tmp.RespondTable;
+		end
+		
+		function LoadCRC16LUT(obj)
+			tmp = load('data\CRC16Table.mat');
+			obj.crc_16_lut = tmp.CRC16Table';
 		end
 		
 		function new_ID(obj,ID_num)

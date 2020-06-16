@@ -135,7 +135,7 @@ function RespondTable = FillRespondTable(RespondTable)
 			RespondTable{'ID_50','Type'}{:} = {
 				'ENUM', 'INTEGER','INTEGER', 'INTEGER'};
 			RespondTable{'ID_50','TypeLength'}{:} = {1, 1, 2, 4}; 
-			NUM_CMD = size(RespondTable{'ID_46','Type'}{:},2);
+			NUM_CMD = size(RespondTable{'ID_50','Type'}{:},2);
 			RespondTable{'ID_50','Num_CMD'} = NUM_CMD;
 			RespondTable{'ID_50','Symbol'}{:} = {
 				'TYPE', 'HWREV','FW_VERSION', 'SN'};
@@ -172,7 +172,7 @@ function RespondTable = FillRespondTable(RespondTable)
 				'Minimum acceleration: ','Maximum acceleration: ',...
 				'Minimum force: ', 'Nominal force: ', 'Overdrive Force: '};
 			RespondTable{'ID_53','Unit'}{:} = {
-				' mm', ' mm/s', ' mm/s', ' mm/s²',....
+				' mm', ' mm/s', ' mm/s', ' mm/s^2',....
 				' mm/s^2', ' N', ' N', ' N'};
 		
 			%Fill Respond of Command ID 60h
