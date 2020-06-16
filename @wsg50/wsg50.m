@@ -34,6 +34,7 @@ classdef wsg50 < handle
 		buffer                  %Memory for received Data
 		boolean_struct = struct;%Struct for message boolean values
 		decodeprop = struct;		%struct for decoding msgs
+		enumtype						%ENUMS for Symbol TYPE
 		
 		TCPIP                   % TCPIP-objekt
 		TCPIPWrapper				% Wrapper for the TCP Callback
@@ -47,6 +48,7 @@ classdef wsg50 < handle
 		PORT
 		verbose                 % Boolean for info messages
 		debug                   % Boolean for debugging enviroment
+		use_crc						% Boolean for enabled crc
 		%Status variable for different ???
 		status = struct('OVERDRIVE',false,'LIMITS',false);
 	end
@@ -64,6 +66,7 @@ classdef wsg50 < handle
 			obj.verbose = false;
 			obj.debug = false;
 			obj.autoopen = false;
+			obj.use_crc = true;
 			
 			%Set properties
 			obj.msg_table = msg_id_tbl();
@@ -100,7 +103,10 @@ classdef wsg50 < handle
 			obj.conf_conn();
 			
 			% Initialize Boolean struct
-			obj.init_b_struct();
+			obj.init_b_struct();	
+			
+			% Initialize ENUMS
+			obj.init_enums();
 			
 			% Open the connection
 			if obj.autoopen
@@ -143,6 +149,8 @@ classdef wsg50 < handle
 							obj.debug = true;
 						case 'autoopen'
 							obj.autoopen = true;
+						case 'crcoff'
+							obj.use_crc = false;
 					end
 				end
 				n = n +1;
@@ -166,6 +174,17 @@ classdef wsg50 < handle
 			obj.boolean_struct.PAYLOAD = false;
 			obj.boolean_struct.CRC = false;
 		end	
+		
+		%Initialize all enum cells
+		function init_enums(obj)
+			obj.enumtype = {'unknown',...
+								 'WSG50',...
+								 'WSG32',...
+								 'KMS40',...
+								 'WTS',...
+								 'WSG25',...
+								 'WSG70'};
+		end
 		
 		%Receive Data
 		%This function is only used by the method ReadCommand. If Bytes are
@@ -236,13 +255,16 @@ classdef wsg50 < handle
 					obj.buffer = [];
 					obj.boolean_struct.PAYLOAD = false;
 					obj.boolean_struct.CRC = true;
-					decode_payload(obj, strcat('ID_',dec2hex(obj.ID_R,2)));
 				end
 			elseif obj.boolean_struct.CRC
 				if size(obj.buffer,2) == 2
 					obj.msg_table.enter_ID_val(obj.ID_R,'CRC',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.CRC = false;
+					obj.CheckCRC()
+					if obj.calc_payload(obj.ID_R)>2
+						decode_payload(obj, strcat('ID_',dec2hex(obj.ID_R,2)));
+					end
 					obj.CheckStatus()
 				end
 			else
@@ -257,6 +279,19 @@ classdef wsg50 < handle
 % 			status_ = obj.msg_table.msg_tbl.(ID_).STATUS;
 			if obj.verbose
 				obj.decode_status(dec2hex(obj.ID_R,2))
+			end
+		end
+		
+		function CheckCRC(obj)
+			ID_ = strcat('ID_', dec2hex(obj.ID_R));
+			msg = [dec2hex(obj.msg_table.msg_tbl.(ID_).ID,2);...
+				dec2hex(obj.msg_table.msg_tbl.(ID_).LENGTH,2);...
+				dec2hex(obj.msg_table.msg_tbl.(ID_).STATUS,2);...
+				dec2hex(obj.msg_table.msg_tbl.(ID_).PAYLOAD,2)];
+			obj.update_chksum(msg)
+			
+			if obj.CRC ~= dec2hex(obj.msg_table.msg_tbl.(ID_).CRC)
+				warning('CRC check failed')
 			end
 		end
 		
@@ -287,17 +322,23 @@ classdef wsg50 < handle
 		%command message and convert it from hex to dec. Also it is
 		%checking for CRC-sum.
 		function DataEncode(obj)
+			%Concatinate Data String
+			obj.Data = [obj.preambel;...        %Preambel
+				obj.ID;...              %Command ID
+				obj.Payload;...         %Payload length
+				obj.Command];	         %Command
+			
+			if obj.use_crc
+				obj.update_chksum(obj.Data)
+			end
+			
 			%Checking if CRC set
 			if isempty(obj.CRC)
 				obj.CRC = obj.CRC_0;
 			end
 			
-			%Concatinate Data String
-			obj.Data = [obj.preambel;...        %Preambel
-				obj.ID;...              %Command ID
-				obj.Payload;...         %Payload length
-				obj.Command;...         %Command
-				obj.CRC];               %CRC
+			
+			obj.Data = [obj.Data; obj.CRC];      %CRC
 			%Convert hex 2 dec
 			obj.Data = hex2dec(obj.Data);
 		end
@@ -446,18 +487,37 @@ classdef wsg50 < handle
 				
 				switch Type{i}
 					case 'INTEGER'
+						%Continue if no Payload Available
+						if ~isfield(obj.msg_table.msg_tbl.(ID),'PAYLOAD')
+							continue
+						end
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
-						tmp_int = 0;
-						for j = 1:length(dec_str)
-							tmp_int =  tmp_int + dec_str(j)*255^(j-1);
+						hex_str = flipud(dec2hex(dec_str,2));
+						tmp_int = '';
+						for j = 1:size(hex_str,1)
+							tmp_int =  strcat(tmp_int, hex_str(j,:));
 						end
+						tmp_int = hex2dec(tmp_int);
 						if iscell(Symbol) && ischar(Symbol{i})
-							obj.status.(Symbol{i}) = tmp_int;
+							switch ID
+								case 'ID_06'
+									obj.decode_loop(tmp_int, Symbol{i})
+								case 'ID_46'
+									obj.decode_temp(tmp_int, Symbol{i})
+								case 'ID_50'
+									obj.decode_sysinfo(tmp_int, Symbol{i})
+								otherwise
+									obj.status.(Symbol{i}) = tmp_int;
+							end
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'FLOAT'    %TypeLength not used for FLOAT ??? What did I mean
+						%Continue if no Payload Available
+						if ~isfield(obj.msg_table.msg_tbl.(ID),'PAYLOAD')
+							continue
+						end
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						if iscell(Symbol)  && ischar(Symbol{i})
@@ -466,7 +526,23 @@ classdef wsg50 < handle
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'STRING'
+						%Continue if no Payload Available
+						if ~isfield(obj.msg_table.msg_tbl.(ID),'PAYLOAD')
+							continue
+						end
+						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
+						dec_str = dec_str(start_idx:end_idx);
+						tmp_str = char(dec_str);
+						if iscell(Symbol) && ischar(Symbol{i})
+							obj.status.(Symbol{i}) = tmp_str';
+						else
+							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
+						end
 					case 'BITVEC'
+						%Continue if no Payload Available
+						if ~isfield(obj.msg_table.msg_tbl.(ID),'PAYLOAD')
+							continue
+						end
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						dec_str = de2bi(dec_str,8);
@@ -483,10 +559,19 @@ classdef wsg50 < handle
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
 					case 'ENUM'
+						%Continue if no Payload Available
+						if ~isfield(obj.msg_table.msg_tbl.(ID),'PAYLOAD')
+							continue
+						end
 						dec_str = obj.msg_table.msg_tbl.(ID).PAYLOAD';
 						dec_str = dec_str(start_idx:end_idx);
 						if iscell(Symbol) && ischar(Symbol{i})
-							obj.status.(Symbol{i})= dec_str;
+							switch ID
+								case 'ID_50'
+									obj.decode_sysinfo(dec_str, Symbol{i})
+								otherwise
+									obj.status.(Symbol{i})= dec_str;
+							end
 						else
 							error('ERROR: THIS SHOULD NOT HAPPEN!! FIX THE FUNCTION ARGUMENTS')
 						end
@@ -497,6 +582,77 @@ classdef wsg50 < handle
 					disp(strcat(Name{i}, num2str(obj.status.(Symbol{i})),Unit{i}))
 				end
 			end
+		end
+		
+		%Decode Loop
+		function decode_loop(obj, tmp_int, Symbol)
+			tmp_hexf = fliplr(dec2hex(tmp_int));
+			tmp_hex = '';
+			for i = 2:2:size(tmp_hexf,2)
+				tmp_hex = strcat(tmp_hex, tmp_hexf(i));
+				tmp_hex = strcat(tmp_hex, tmp_hexf(i-1));
+			end
+			obj.status.(Symbol) = tmp_hex;
+		end
+		
+		%DecodeTemperature
+		%This Function decodes the temp integer values to correct °C values.
+		%The function is called inside DecodePayload if the return value is
+		%Temp.
+		function decode_temp(obj,tmp_int, Symbol)
+			if (hex2dec('0000') <= tmp_int && tmp_int <= hex2dec('0FFF'))
+				tmp_int = tmp_int/10;
+				obj.status.(Symbol) = tmp_int;
+			elseif (hex2dec('F000') <= tmp_int && tmp_int <= hex2dec('FFFF'))
+				tmp_int = (tmp_int - hex2dec('FFFF'))/10;	
+				obj.status.(Symbol) = tmp_int;
+			else
+				error('Value out of expected range. Check gripper and tool.')
+			end
+		end
+		
+		%DecodeSysinfo
+		%This Function decodes the sysinfo values to readable values.
+		%The function is called inside DecodePayload if the return value is
+		%Temp.
+		function decode_sysinfo(obj, tmp, Symbol)
+			switch Symbol
+				case 'TYPE'
+					obj.status.(Symbol) = obj.enumtype{tmp+1};
+				case 'HWREV'
+					obj.status.(Symbol) = tmp;
+				case 'FW_VERSION'
+					tmp = dec2bin(tmp,16);
+					HVer = bin2dec(tmp(1:4));
+					UVer1 = bin2dec(tmp(5:8));
+					UVer2 = bin2dec(tmp(9:12));
+					VVer = bin2dec(tmp(13:16));
+					obj.status.(Symbol) = strcat(num2str(HVer),'.',...
+														  num2str(UVer1),'.',...
+														  num2str(UVer2),'.',...
+														  num2str(VVer));
+				case 'SN'
+					obj.status.(Symbol) = tmp;
+				otherwise
+					error('Wrong Symbol. Check gripper and tool.')
+			end
+		end
+		
+		%Updtae Chksum
+		%This function is called if CRC is enabled 
+		function update_chksum(obj,msg)
+			crc = 'FFFF';
+			len = size(msg,1);
+			
+			% Update Checksum over all MessagBytes
+			for i = 1:len
+				cmp_msg_crc = bitxor(hex2dec(crc),hex2dec(msg(i,:)));
+				rm_last_byte = bitand(cmp_msg_crc, hex2dec('00FF'))+1;
+				table_value = obj.msg_table.crc_16_lut{rm_last_byte};
+				shifted_value = bitxor(hex2dec(table_value), bitshift(hex2dec(crc), -8));
+				crc = dec2hex(shifted_value);
+			end
+			obj.CRC = [crc(3:4); crc(1:2)];
 		end
 		
 		% Listener Function
