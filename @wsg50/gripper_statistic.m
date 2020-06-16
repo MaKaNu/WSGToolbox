@@ -1,6 +1,6 @@
 % gripper_statistic function
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 
 function gripper_statistic(obj,reset)

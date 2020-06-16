@@ -13,7 +13,7 @@ classdef wsg50 < handle
 	%   Copyright 2020 Fachhochschule Dortmund LIT
 	% $Revision: 0.3.0 $
 	% $Author: Matti Kaupenjohann $
-	% $Date: 2019/11/26 $
+	% $Date: 2020/06/16 $
 	
 	%CONSTANTS & PRIVATES
 	properties (Constant, Access = private)

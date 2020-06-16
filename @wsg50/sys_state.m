@@ -1,6 +1,6 @@
 %Systemstate function
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 
 function sys_state(obj,change, automatic,time)

@@ -1,6 +1,6 @@
 %ack Function
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 function ack(obj)
 
