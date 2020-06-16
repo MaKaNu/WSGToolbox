@@ -8,15 +8,15 @@ This Class Folder includes (at the moment) the class wsg50. It provides the  use
 The Class includes the following User-Functions:
 
 ### Connection Management
-* loop
-* disconnect
+* [loop](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/loop)
+* [disconnect](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/disconnect)
 
 ### Motion Control
-* reference
+* [reference](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/reference)
 * position
 * stop
 * fast_stop
-* ack
+* [ack](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/ack)
 * grasp
 * release
 
