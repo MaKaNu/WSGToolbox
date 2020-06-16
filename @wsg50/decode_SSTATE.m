@@ -1,4 +1,7 @@
-%Decode SSTATE
+% Decode SSTATE function
+
+%   Copyright 2019 Fachhochschule Dortmund LIT
+
 function decode_SSTATE(Obj)
 
     try

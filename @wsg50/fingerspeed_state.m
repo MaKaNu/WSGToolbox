@@ -3,7 +3,7 @@
 %   Copyright 2020 Fachhochschule Dortmund LIT
 
 
-function gripper_state(obj,change, automatic,time)
+function fingerspeed_state(obj,change, automatic,time)
 
 ErrorCode = 0;
 
@@ -24,7 +24,7 @@ end
 
 
 if ErrorCode == 0
-	obj.ID = '41';                              %ID systemstate
+	obj.ID = '44';                              %ID systemstate
 	obj.Payload = ['03'; '00'];                 %Payload length systemstate
 	
 	if automatic && change
@@ -42,29 +42,6 @@ if ErrorCode == 0
 	
 	DataEncode(obj);
 	DataSend(obj);
-	
-	% 	if obj.verbose
-	% 		disp(strcat('GRIPPER STATUS: ', num2str(obj.status.GSTATE)))
-	% 		switch obj.status.GSTATE
-	% 			case 0
-	% 				disp('IDLE')
-	% 			case 1
-	% 				disp('GRASPING')
-	% 			case 2
-	% 				disp('NO PART FOUND')
-	% 			case 3
-	% 				disp('PART LOST')
-	% 			case 4
-	% 				disp('HOLDING')
-	% 			case 5
-	% 				disp('RELEASING')
-	% 			case 6
-	% 				disp('POSITIONING')
-	% 			case 7
-	% 				disp('ERROR')
-	% 			otherwise
-	% 				disp('RESERVED')
-	% 		end
-	% 	end
+
 end
 end

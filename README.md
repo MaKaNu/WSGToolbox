@@ -1,28 +1,60 @@
 # WSG50
     
-![Weiss Robotics](https://www.weiss-robotics.com/wp-content/uploads/2015/10/Logo-Symbol-Weiss-Robotics.png "Weiss Robotics Logo")
+![Weiss Robotics](/Logo.gif "Weiss Robotics Logo")
 
 ## Overview
 This Class Folder includes (at the moment) the class wsg50. It provides the  user with everything needed to use the gripper-module with MATLAB. The complexity of the hardware interface is reduced, so the user can call directly the commands for the gripper-module.
 
 The Class includes the following User-Functions:
 
-* ack
-* fast_stop
-* get_acc
-* get_force
-* get_Softlimits
-* grasp
-* loop
-* overdrive (in progress) DON'T USE
+### Connection Management
+* [loop](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/loop)
+* [disconnect](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/disconnect)
+
+### Motion Control
+* [reference](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/reference)
 * position
-* reference
-* release
-* reset_softlimits
-* set_acc
-* set_force (in progress) DON'T USE
-* set_softlimits
 * stop
+* fast_stop
+* [ack](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/ack)
+* grasp
+* release
+
+### Motion Configuration
+* set_acc
+* get_acc
+* set_force (in progress) DON'T USE
+* get_force
+* set_softlimits
+* get_softlimits
+* reset_softlimits
+* overdirve (in progress) DON'T USE
+* tare_sensor (in dev)
+
+### System States
+* sys_state
+* gripper_state
+* gripper_statistic
+* openwidth_state
+* fingerspeed_state
+* gripperforce_state
+* temperature_state
+
+### System Configuration
+* sys_info
+* set_device_tag
+* get_device_tag
+* get_syslimits
+
+### Finger Interface
+* get_finger1_info
+* get_finger1_state
+* power_finger1
+* get_finger1_data
+* get_finger2_info
+* get_finger2_state
+* power_finger2
+* get_finger2_data
 
 ## Installation
 The Installation-Guide is localized in the [WIKI](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home)

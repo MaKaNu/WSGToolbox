@@ -1,16 +1,22 @@
 %ack Function
-function ack(Obj)
+% DESCRIPTION
+% This method is used to acknowledge a fast-stop command.
+%
+% PARAMETER:
+% none
 
-    %Flags Input check
-    ErrorCode = 0;
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
-    if ErrorCode == 0
-            Obj.ID = '24';                              %ID Graps
-            Obj.Payload = ['03'; '00'];                 %Payload length grasp
-            Obj.Command = ['61'; '63'; '6B'];           %No Command
+function ack(obj)
 
-            DataEncode(Obj);
-            DataSend(Obj);
-            command_complete(Obj);
-    end
+ErrorCode = 0;
+
+if ErrorCode == 0
+	obj.ID = '24';                              %ID Graps
+	obj.Payload = ['03'; '00'];                 %Payload length grasp
+	obj.Command = ['61'; '63'; '6B'];           %No Command
+	
+	DataEncode(obj);
+	DataSend(obj);
+end
 end

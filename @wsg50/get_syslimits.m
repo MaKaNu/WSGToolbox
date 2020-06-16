@@ -1,15 +1,15 @@
-%fast_stop Function
+% get syslimits Function
 
 %   Copyright 2020 Fachhochschule Dortmund LIT
 
-function fast_stop(obj)
+function get_syslimits(obj)
 
 ErrorCode = 0;
 
 if ErrorCode == 0
-	obj.ID = '23';                              %ID Graps
+	obj.ID = '53';                              %ID system infos
 	obj.Payload = ['00'; '00'];                 %Payload length grasp
-	obj.Command = [];                           %No Command
+	obj.Command = [];									  %No Command
 	
 	DataEncode(obj);
 	DataSend(obj);
