@@ -8,6 +8,7 @@ classdef msg_id_tbl < handle
 		respond_value_tbl;
 		crc_16_lut
 		IDs
+		data_path
 	end
 	
 	methods
@@ -15,18 +16,20 @@ classdef msg_id_tbl < handle
 			%MAG_ID_TBL Construct an instance of this class
 			%   Detailed explanation goes here
 			obj.active = true;
+			obj.data_path = which('wsg50');
+			obj.data_path = obj.data_path(1:end-14);
 			obj.LoadRespondTable()
 			obj.LoadCRC16LUT()
 			
 		end
 		
 		function LoadRespondTable(obj)
-			tmp = load('data\respond.mat');
+			tmp = load(strcat(obj.data_path,'\data\respond.mat'));
 			obj.respond_value_tbl = tmp.RespondTable;
 		end
 		
 		function LoadCRC16LUT(obj)
-			tmp = load('data\CRC16Table.mat');
+			tmp = load(strcat(obj.data_path,'data\CRC16Table.mat'));
 			obj.crc_16_lut = tmp.CRC16Table';
 		end
 		
