@@ -6,47 +6,37 @@
 function loop(obj,testdata)
 
 ErrorCode = 0;
-DataLength = length(testdata);
+DataLength = size(testdata,2);
 
 if not(size(testdata,1)==1) || ~ischar(testdata)
 	error(strcat('ERROR: Testdata has to be 1xN char.',...
 		' Error-Code #06002'))
 	ErrorCode = 2;
 end
-try
-	hex2dec(testdata);
-catch
-	error('testdata should have just 0-9, a-f, or A-F.')
-end
 
 if ErrorCode == 0 && DataLength<=512
 	%Transform the Data to single Bytes
-	switch mod(DataLength,2)
-		case 0
-			Bytes = regexp(testdata, '\w{1,2}', 'match');
-			Bytes = cell2mat(Bytes');
-		case 1
-			Bytes = regexp(testdata(1:end-1), '\w{1,2}', 'match');
-			Bytes = cell2mat(Bytes');
-			EndByte = dec2hex(hex2dec(testdata(end)),2);
-			Bytes = [Bytes;EndByte];
+	try
+		switch mod(DataLength,2)
+			case 0
+				Bytes = regexp(testdata, '\w{1,2}', 'match');
+				Bytes = cell2mat(Bytes');
+			case 1
+				Bytes = regexp(testdata(1:end-1), '\w{1,2}', 'match');
+				Bytes = cell2mat(Bytes');
+				EndByte = dec2hex(hex2dec(testdata(end)),2);
+				Bytes = [Bytes;EndByte];
+		end
+	catch
+		error('testdata should have just 0-9, a-f, or A-F.')
 	end
+	
 	%Calculate the Data Length in Hex
-	DataLength = dec2hex(ceil(DataLength/2));
-	switch length(DataLength)
-		case 1
-			Byte_1 = strcat('0',DataLength);
-			Byte_2 = '00';
-		case 2
-			Byte_1 = DataLength;
-			Byte_2 = '00';
-		case 3
-			Byte_1 = DataLength(2:3);
-			Byte_2 = strcat('0',DataLength(1));
-		case 4
-			Byte_1 = DataLength(3:4);
-			Byte_2 = DataLength(1:2);
-	end
+	PayloadLength = dec2hex(size(Bytes,1),4);
+	
+	Byte_1 = PayloadLength(1,3:4);
+	Byte_2 = PayloadLength(1,1:2);
+
 else
 	error(strcat('ERROR: Testdata parameters are not valid.',...
 		' Error-Code #06003'))
