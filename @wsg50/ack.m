@@ -1,4 +1,9 @@
 %ack Function
+% DESCRIPTION
+% This method is used to acknowledge a fast-stop command.
+%
+% PARAMETER:
+% none
 
 %   Copyright 2020 Fachhochschule Dortmund LIT
 

@@ -1,4 +1,10 @@
 %Loop function
+% DESCRIPTION
+% This method is used to test the connection with testdata, which will be
+% send back to the user. Last 4 bits will be cut if uneven.
+%
+% PARAMETER:
+% testdata
 
 %   Copyright 2020 Fachhochschule Dortmund LIT
 
