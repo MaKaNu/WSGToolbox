@@ -32,29 +32,29 @@ The Class includes the following User-Functions:
 * [tare_sensor](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/tare_sensor) (in dev)
 
 ### System States
-* sys_state
-* gripper_state
-* gripper_statistic
-* openwidth_state
-* fingerspeed_state
-* gripperforce_state
-* temperature_state
+* [sys_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/sys_state)
+* [gripper_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/gripper_state)
+* [gripper_statistic](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/gripper_statistic)
+* [openwidth_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/openwidth_state)
+* [fingerspeed_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/fingerspeed_state)
+* [gripperforce_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/gripperforce_state)
+* [temperature_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/temperature_state)
 
 ### System Configuration
-* sys_info
-* set_device_tag
-* get_device_tag
-* get_syslimits
+* [sys_info](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/sys_info)
+* [set_device_tag](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/set_device_tag)
+* [get_device_tag](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_device_tag)
+* [get_syslimits](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_syslimits)
 
 ### Finger Interface
-* get_finger1_info
-* get_finger1_state
-* power_finger1
-* get_finger1_data
-* get_finger2_info
-* get_finger2_state
-* power_finger2
-* get_finger2_data
+* [get_finger1_info](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_info)
+* [get_finger1_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_state)
+* [power_finger1](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/power_finger1)
+* [get_finger1_data](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_data)
+* [get_finger2_info](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_info)
+* [get_finger2_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_state)
+* [power_finger2](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/power_finger2)
+* [get_finger2_data](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_data)
 
 ## Installation
 The Installation-Guide is localized in the [WIKI](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home)
