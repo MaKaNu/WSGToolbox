@@ -13,23 +13,23 @@ The Class includes the following User-Functions:
 
 ### Motion Control
 * [reference](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/reference)
-* position
-* stop
-* fast_stop
+* [position](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/position)
+* [stop](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/stop)
+* [fast_stop](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/fast_stop)
 * [ack](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/ack)
-* grasp
-* release
+* [grasp](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/grasp)
+* [release](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/release)
 
 ### Motion Configuration
-* set_acc
-* get_acc
-* set_force (in progress) DON'T USE
-* get_force
-* set_softlimits
-* get_softlimits
-* reset_softlimits
-* overdirve (in progress) DON'T USE
-* tare_sensor (in dev)
+* [set_acc](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/set_acc)
+* [get_acc](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_acc)
+* [set_force](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/set_force) (in progress) DON'T USE
+* [get_force](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_force)
+* [set_softlimits](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/set_softlimits)
+* [get_softlimits](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_softlimits)
+* [reset_softlimits](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/reset_softlimits)
+* [overdirve](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/overdrive) (in progress) DON'T USE
+* [tare_sensor](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/tare_sensor) (in dev)
 
 ### System States
 * sys_state
