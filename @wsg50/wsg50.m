@@ -667,7 +667,7 @@ classdef wsg50 < handle
 				rm_last_byte = bitand(cmp_msg_crc, hex2dec('00FF'))+1;
 				table_value = obj.msg_table.crc_16_lut{rm_last_byte};
 				shifted_value = bitxor(hex2dec(table_value), bitshift(hex2dec(crc), -8));
-				crc = dec2hex(shifted_value);
+				crc = dec2hex(shifted_value, 4);
 			end
 			obj.CRC = [crc(3:4); crc(1:2)];
 		end
