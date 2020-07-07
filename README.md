@@ -47,14 +47,14 @@ The Class includes the following User-Functions:
 * [get_syslimits](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_syslimits)
 
 ### Finger Interface
-* [get_finger1_info](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_info)
-* [get_finger1_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_state)
-* [power_finger1](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/power_finger1)
-* [get_finger1_data](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_data)
-* [get_finger2_info](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_info)
-* [get_finger2_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_state)
-* [power_finger2](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/power_finger2)
-* [get_finger2_data](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_data)
+* [get_finger1_info](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_info) (in dev)
+* [get_finger1_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_state) (in dev)
+* [power_finger1](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/power_finger1) (in dev)
+* [get_finger1_data](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger1_data) (in dev)
+* [get_finger2_info](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_info) (in dev)
+* [get_finger2_state](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_state) (in dev)
+* [power_finger2](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/power_finger2) (in dev)
+* [get_finger2_data](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home/wsg50/get_finger2_data) (in dev)
 
 ## Installation
 The Installation-Guide is localized in the [WIKI](https://git.lit.fh-dortmund.de/rvc/weiss_tools/wsg50/wikis/home)
