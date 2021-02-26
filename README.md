@@ -1,7 +1,5 @@
 # WSG50
     
-![Weiss Robotics](/Logo.gif "Weiss Robotics Logo")
-
 ## Overview
 This Class Folder includes (at the moment) the class wsg50. It provides the  user with everything needed to use the gripper-module with MATLAB. The complexity of the hardware interface is reduced, so the user can call directly the commands for the gripper-module.
 
