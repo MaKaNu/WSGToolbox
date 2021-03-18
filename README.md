@@ -1,7 +1,6 @@
-# WSG50
-    
+![word-and-design-mark-logo](https://git.lit.fh-dortmund.de/rvc/themen/weiss_tools/wsg50/-/raw/develop/logo/wsg-toolbox_word_and_design_mark.png)
 ## Overview
-This Class Folder includes (at the moment) the class wsg50. It provides the  user with everything needed to use the gripper-module with MATLAB. The complexity of the hardware interface is reduced, so the user can call directly the commands for the gripper-module.
+This class folder includes (at the moment) the class wsg-toolbox. It provides the  user with everything needed to use the gripper-module with MATLAB. The complexity of the hardware interface is reduced, so the user can call directly the commands for the gripper-module.
 
 The Class includes the following User-Functions:
 
