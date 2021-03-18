@@ -1,4 +1,4 @@
-classdef wsg50 < handle
+classdef wsg-toolbox < handle
 	% WSG50 Class summary goes here:
 	%
 	% gripper = wsg50(varargin) Creates a gripper object
@@ -57,7 +57,7 @@ classdef wsg50 < handle
 	methods
 		
 		%CONSTRUCTOR
-		function obj = wsg50(varargin)
+		function obj = wsg-toolbox(varargin)
 			disp 'CONSTRUCTED wsg50'
 			
 			%Set Standards
