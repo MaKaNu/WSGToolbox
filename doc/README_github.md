@@ -90,7 +90,7 @@ Fehler waehrend der Ausfuehrung eines Befehls.
 
 ---
 
-### NOTE grasp-status
+### NOTE
 
 Functions to do the following are implemented but not yet tested for the example
 
