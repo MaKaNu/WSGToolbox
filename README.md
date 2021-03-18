@@ -13,6 +13,8 @@ Since the original documentation of this toolbox is placed inside non-public git
 
 ### License
 
+[BSD-3 Clause License](LICENSE)
+
 ### Citing
 
 @misc{wsg50.2019, title={WSG: A Gripper Class for MATLAB}, author={Kaupenjohann, Matti}, year={2019} }
