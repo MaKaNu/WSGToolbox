@@ -90,11 +90,10 @@ Fehler waehrend der Ausfuehrung eines Befehls.
 
 ---
 
-### NOTE
-
-Functions to do the following are implemented but not yet tested for the example
-
----
+>**NOTE**
+>
+>Functions to do the following are implemented but not yet tested for the example
+>
 
 In that case we can use the function
 
@@ -112,7 +111,6 @@ TODO: test and add functions
 
 ---
 
----
 
 Next we simply release the ball:
 
