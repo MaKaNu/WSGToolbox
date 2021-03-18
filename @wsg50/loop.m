@@ -1,6 +1,12 @@
 %Loop function
+% DESCRIPTION
+% This method is used to test the connection with testdata, which will be
+% send back to the user. Last 4 bits will be cut if uneven.
+%
+% PARAMETER:
+% testdata
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 
 function loop(obj,testdata)

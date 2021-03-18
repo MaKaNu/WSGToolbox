@@ -1,6 +1,6 @@
 %gripperstate function
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 
 function gripper_state(obj,change, automatic,time)
@@ -34,8 +34,6 @@ if ErrorCode == 0
 		warning('Just Because something is possible, doesnt mean it is usefull!')
 	elseif automatic
 		obj.Command = ['01';time_];
-		error(strcat('This will sent messages every timeinterval that',...
-			 ' may block your system. Choose another option!'))
 	else
 		obj.Command = ['00';time_];
 	end

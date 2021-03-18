@@ -1,6 +1,6 @@
 %Get Force Function
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 
 function get_softlimits(obj)

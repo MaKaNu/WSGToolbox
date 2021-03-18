@@ -1,6 +1,13 @@
 %Reference function
+% DESCRIPTION
+% This method is used to perform a reference motion with the gripper. The 
+% best precision will be achieved if the reference motion is executed in
+% the same direction as later the grasp motion.
+%
+% PARAMETER
+% direction
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 
 function reference(obj,direction)

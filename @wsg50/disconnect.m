@@ -1,6 +1,15 @@
 % disconnect function
+% DESCRIPTION
+% This Function closes the connection between the users computer and the 
+% gripper. Befor doing this, a command informs the gripper that the 
+% connection will be closed. THis function will always be called if the
+% gripper instance will be destructed.
+%
+% PARMAETER
+% none
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 function disconnect(Obj)
 

@@ -1,6 +1,11 @@
 %ack Function
+% DESCRIPTION
+% This method is used to acknowledge a fast-stop command.
+%
+% PARAMETER:
+% none
 
-%   Copyright 2019 Fachhochschule Dortmund LIT
+%   Copyright 2020 Fachhochschule Dortmund LIT
 
 function ack(obj)
 

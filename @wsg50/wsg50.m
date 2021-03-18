@@ -13,7 +13,7 @@ classdef wsg50 < handle
 	%   Copyright 2020 Fachhochschule Dortmund LIT
 	% $Revision: 0.3.0 $
 	% $Author: Matti Kaupenjohann $
-	% $Date: 2019/11/26 $
+	% $Date: 2020/06/16 $
 	
 	%CONSTANTS & PRIVATES
 	properties (Constant, Access = private)
@@ -261,9 +261,9 @@ classdef wsg50 < handle
 					obj.msg_table.enter_ID_val(obj.ID_R,'CRC',obj.buffer)
 					obj.buffer = [];
 					obj.boolean_struct.CRC = false;
-					obj.CheckCRC()
+					obj.CheckCRC(strcat('ID_',dec2hex(obj.ID_R,2)))
 					if obj.calc_payload(obj.ID_R)>2
-						decode_payload(obj, strcat('ID_',dec2hex(obj.ID_R,2)));
+						obj.decode_payload( strcat('ID_',dec2hex(obj.ID_R,2)));
 					end
 					obj.CheckStatus()
 				end
@@ -282,15 +282,27 @@ classdef wsg50 < handle
 			end
 		end
 		
-		function CheckCRC(obj)
-			ID_ = strcat('ID_', dec2hex(obj.ID_R));
-			msg = [dec2hex(obj.msg_table.msg_tbl.(ID_).ID,2);...
-				dec2hex(obj.msg_table.msg_tbl.(ID_).LENGTH,2);...
-				dec2hex(obj.msg_table.msg_tbl.(ID_).STATUS,2);...
-				dec2hex(obj.msg_table.msg_tbl.(ID_).PAYLOAD,2)];
+		function CheckCRC(obj, ID_R)
+			msg = ['AA';'AA';'AA'];
+			try 
+				msg = [msg; dec2hex(obj.msg_table.msg_tbl.(ID_R).ID,2);...
+					dec2hex(obj.msg_table.msg_tbl.(ID_R).LENGTH,2);...
+					dec2hex(obj.msg_table.msg_tbl.(ID_R).STATUS,2);...
+					dec2hex(obj.msg_table.msg_tbl.(ID_R).PAYLOAD,2)];
+			catch
+				msg = [msg; dec2hex(obj.msg_table.msg_tbl.(ID_R).ID,2);...
+					dec2hex(obj.msg_table.msg_tbl.(ID_R).LENGTH,2);...
+					dec2hex(obj.msg_table.msg_tbl.(ID_R).STATUS,2)];
+			end
 			obj.update_chksum(msg)
 			
-			if obj.CRC ~= dec2hex(obj.msg_table.msg_tbl.(ID_).CRC)
+			if obj.debug
+				disp(obj.CRC(:)')
+				tmp_crc = dec2hex(obj.msg_table.msg_tbl.(ID_R).CRC);
+				disp(tmp_crc(:)')
+			end
+			
+			if obj.CRC ~= dec2hex(obj.msg_table.msg_tbl.(ID_R).CRC)
 				warning('CRC check failed')
 			end
 		end
@@ -498,7 +510,12 @@ classdef wsg50 < handle
 						for j = 1:size(hex_str,1)
 							tmp_int =  strcat(tmp_int, hex_str(j,:));
 						end
-						tmp_int = hex2dec(tmp_int);
+						try 
+							tmp_int = hex2dec(tmp_int);
+						catch
+							
+						end
+							
 						if iscell(Symbol) && ischar(Symbol{i})
 							switch ID
 								case 'ID_06'
@@ -586,7 +603,7 @@ classdef wsg50 < handle
 		
 		%Decode Loop
 		function decode_loop(obj, tmp_int, Symbol)
-			tmp_hexf = fliplr(dec2hex(tmp_int));
+			tmp_hexf = fliplr(tmp_int);
 			tmp_hex = '';
 			for i = 2:2:size(tmp_hexf,2)
 				tmp_hex = strcat(tmp_hex, tmp_hexf(i));
@@ -650,7 +667,7 @@ classdef wsg50 < handle
 				rm_last_byte = bitand(cmp_msg_crc, hex2dec('00FF'))+1;
 				table_value = obj.msg_table.crc_16_lut{rm_last_byte};
 				shifted_value = bitxor(hex2dec(table_value), bitshift(hex2dec(crc), -8));
-				crc = dec2hex(shifted_value);
+				crc = dec2hex(shifted_value, 4);
 			end
 			obj.CRC = [crc(3:4); crc(1:2)];
 		end
@@ -670,4 +687,3 @@ classdef wsg50 < handle
 		end
 	end
 end
-
