@@ -1,0 +1,3 @@
+[submodule "git_file_version_update"]
+	path = git_file_version_update
+	url = https://git.lit.fh-dortmund.de/rvc/git_file_version_update.git
