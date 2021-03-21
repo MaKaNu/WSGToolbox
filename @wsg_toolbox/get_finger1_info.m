@@ -1,6 +1,9 @@
 % get Finger 1 Information Function
 
-%   Copyright 2020 Fachhochschule Dortmund LIT
+%   Copyright 2020 - 2021 Fachhochschule Dortmund LIT
+%       $Revision: 1.0.0 $
+%       $Author: Matti Kaupenjohann $
+%       $Date: 2021/03/21 $
 
 function get_finger1_info(obj)
 

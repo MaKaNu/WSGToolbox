@@ -10,10 +10,10 @@ classdef wsg_toolbox < handle
     %   - 'debug'
     %   - 'autoopen'
     
-    %   Copyright 2020 Fachhochschule Dortmund LIT
-    % $Revision: 0.3.0 $
-    % $Author: Matti Kaupenjohann $
-    % $Date: 2021/03/20 $
+    %   Copyright 2020 - 2021 Fachhochschule Dortmund LIT
+    %       $Revision: 1.0.0 $
+    %       $Author: Matti Kaupenjohann $
+    %       $Date: 2021/03/21 $
     
     %CONSTANTS & PRIVATES
     properties (Constant, Access = private)
@@ -57,8 +57,8 @@ classdef wsg_toolbox < handle
     methods
         
         %CONSTRUCTOR
-        function obj = wsg-toolbox(varargin)
-            disp 'CONSTRUCTED wsg50'
+        function obj = wsg_toolbox(varargin)
+            disp 'CONSTRUCTED wsg_toolbox'
             
             %Set Standards
             obj.IP = 'localhost';
@@ -77,7 +77,11 @@ classdef wsg_toolbox < handle
             switch nargin
                 case 0
                     obj.IP = defaultHost;
-                    warning('Host and Port are not set. The object uses defaultHost and defaultPort.')
+                    warning(strcat('Host and Port are not set.\n',...
+                        'The object uses:\n',...
+                        'defaultHost: %s\n',...
+                        'defaultPort: %d\n'),...
+                        string(obj.IP), obj.PORT)
                 case 1
                     obj.IP = varargin{1};
                     warning('Port is not set. The object uses defaultPort.')
@@ -118,7 +122,7 @@ classdef wsg_toolbox < handle
         
         %DESTRUCTER
         function delete(obj)
-            disp 'DESTRUCTED wsg50'
+            disp 'DESTRUCTED wsg_toolbox'
             
             if strcmp(obj.TCPIP.Status,'open')
                 obj.disconnect
