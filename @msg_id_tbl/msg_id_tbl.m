@@ -1,7 +1,12 @@
 classdef msg_id_tbl < handle
-	%MAG_ID_TBL Summary of this class goes here
+	%MSG_ID_TBL Summary of this class goes here
 	%   Detailed explanation goes here
-	
+	%
+    %   Copyright 2020 - 2021 Fachhochschule Dortmund LIT
+    %       $Revision: 1.0.0 $
+    %       $Author: Matti Kaupenjohann $
+    %       $Date: 2021/03/21 $
+    
 	properties
 		active
 		msg_tbl = struct;
@@ -13,11 +18,11 @@ classdef msg_id_tbl < handle
 	
 	methods
 		function obj = msg_id_tbl(varargin)
-			%MAG_ID_TBL Construct an instance of this class
+			%MSG_ID_TBL Construct an instance of this class
 			%   Detailed explanation goes here
 			obj.active = true;
-			obj.data_path = which('wsg50');
-			obj.data_path = obj.data_path(1:end-14);
+			obj.data_path = which('wsg_toolbox');
+			obj.data_path = obj.data_path(1:end-26);
 			obj.LoadRespondTable()
 			obj.LoadCRC16LUT()
 			

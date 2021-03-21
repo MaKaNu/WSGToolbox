@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<deployment-project plugin="plugin.toolbox" plugin-version="1.0">
+  <configuration file="G:\GIT\wsg-toolbox\build\WSGtoolbox.prj"
+                  location="G:\GIT\wsg-toolbox\build"
+                  name="WSGtoolbox"
+                  target="target.toolbox"
+                  target-name="Package Toolbox">
+      <param.appname>WSGtoolbox</param.appname>
+      <param.authnamewatermark>Matti Kaupenjohann</param.authnamewatermark>
+      <param.email>matti.kaupenjohann@fh-dortmund.de</param.email>
+      <param.company>FH Dortmund</param.company>
+      <param.summary>Gripper Class for the wsg series of the weiss robotics company</param.summary>
+      <param.description>class based toolbox, which accomplishes the command sending via tcpip including CRC-checksum calculations.</param.description>
+      <param.screenshot>G:\GIT\wsg-toolbox\logo\wsg-toolbox_design_mark.png</param.screenshot>
+      <param.version>1.0.0</param.version>
+      <param.output>${PROJECT_ROOT}\WSGtoolbox.mltbx</param.output>
+      <param.products.name>
+         <item>Communications Toolbox</item>
+         <item>Data Acquisition Toolbox</item>
+         <item>Instrument Control Toolbox</item>
+      </param.products.name>
+      <param.products.id>
+         <item>36</item>
+         <item>47</item>
+         <item>62</item>
+      </param.products.id>
+      <param.products.version>
+         <item>7.3</item>
+         <item>4.1</item>
+         <item>4.2</item>
+      </param.products.version>
+      <param.platforms/>
+      <param.guid>40f06d70-5144-43e3-91fa-9598a9353069</param.guid>
+      <param.exclude.filters>% List files contained in your toolbox folder that you would like to exclude
+% from packaging.  Excludes should be listed relative to the toolbox folder.
+% Some examples of how to specify excludes are provided below:
+%
+% A single file in the toolbox folder:
+% .svn
+%
+% A single file in a subfolder of the toolbox folder:
+% example/.svn
+%
+% All files in a subfolder of the toolbox folder:
+% example/*
+%
+% All files of a certain name in all subfolders of the toolbox folder:
+% **/.svn
+%
+% All files matching a pattern in all subfolders of the toolbox folder:
+% **/*.bak
+%
+%exclude git files and repos from package
+.git/*
+.git*
+git_file_version_update
+CONTRIBUTING
+
+%exclude toolbox creation file
+create_toolbox.m
+
+%exclude verion update tool
+git_file_version_update
+
+% exclude autosaves
+*.asv</param.exclude.filters>
+      <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
+      <param.examples/>
+      <param.demosxml/>
+      <param.apps/>
+      <param.registered.apps/>
+      <param.docs/>
+      <param.getting.started.guide>G:\GIT\wsg-toolbox\doc\GettingStarted.mlx</param.getting.started.guide>
+      <param.matlabpath.excludes/>
+      <param.javaclasspath.excludes/>
+      <param.exported.on.package>false</param.exported.on.package>
+      <param.required.addons/>
+      <param.matlab.project.id/>
+      <param.matlab.project.name/>
+      <param.release.start>R2016a</param.release.start>
+      <param.release.end>latest</param.release.end>
+      <param.release.current.only>false</param.release.current.only>
+      <param.compatiblity.windows>true</param.compatiblity.windows>
+      <param.compatiblity.macos>true</param.compatiblity.macos>
+      <param.compatiblity.linux>true</param.compatiblity.linux>
+      <param.compatiblity.matlabonline>true</param.compatiblity.matlabonline>
+      <param.installation.map/>
+      <param.additional.sw.names/>
+      <param.additional.sw.licenses/>
+      <param.additional.sw.win.url/>
+      <param.additional.sw.mac.url/>
+      <param.additional.sw.linux.url/>
+      <unset>
+         <param.output/>
+         <param.platforms/>
+         <param.exclude.pcodedmfiles/>
+         <param.examples/>
+         <param.demosxml/>
+         <param.apps/>
+         <param.registered.apps/>
+         <param.docs/>
+         <param.matlabpath.excludes/>
+         <param.javaclasspath.excludes/>
+         <param.exported.on.package/>
+         <param.required.addons/>
+         <param.matlab.project.id/>
+         <param.matlab.project.name/>
+         <param.release.current.only/>
+         <param.compatiblity.windows/>
+         <param.compatiblity.macos/>
+         <param.compatiblity.linux/>
+         <param.compatiblity.matlabonline/>
+         <param.installation.map/>
+         <param.additional.sw.names/>
+         <param.additional.sw.licenses/>
+         <param.additional.sw.win.url/>
+         <param.additional.sw.mac.url/>
+         <param.additional.sw.linux.url/>
+      </unset>
+      <fileset.rootdir>
+         <file>G:\GIT\wsg-toolbox</file>
+      </fileset.rootdir>
+      <fileset.rootfiles>
+         <file>G:\GIT\wsg-toolbox\@msg_id_tbl</file>
+         <file>G:\GIT\wsg-toolbox\@tcpipCallbackWrapper</file>
+         <file>G:\GIT\wsg-toolbox\@wsg_toolbox</file>
+         <file>${PROJECT_ROOT}</file>
+         <file>G:\GIT\wsg-toolbox\CHANGELOG</file>
+         <file>G:\GIT\wsg-toolbox\CONTRIBUTING.md</file>
+         <file>G:\GIT\wsg-toolbox\data</file>
+         <file>G:\GIT\wsg-toolbox\doc</file>
+         <file>G:\GIT\wsg-toolbox\LICENSE</file>
+         <file>G:\GIT\wsg-toolbox\logo</file>
+         <file>G:\GIT\wsg-toolbox\README.md</file>
+         <file>G:\GIT\wsg-toolbox\utility</file>
+      </fileset.rootfiles>
+      <fileset.depfun.included/>
+      <fileset.depfun.excluded/>
+      <fileset.package/>
+      <build-deliverables>
+         <file location="${PROJECT_ROOT}" name="WSGtoolbox.mltbx" optional="false">G:\GIT\wsg-toolbox\build\WSGtoolbox.mltbx</file>
+      </build-deliverables>
+      <workflow/>
+      <matlab>
+         <root>F:\Programme\Matlab\2020</root>
+         <toolboxes>
+            <toolbox name="matlabcoder"/>
+            <toolbox name="neuralnetwork"/>
+         </toolboxes>
+         <toolbox>
+            <matlabcoder>
+               <enabled>true</enabled>
+            </matlabcoder>
+         </toolbox>
+         <toolbox>
+            <neuralnetwork>
+               <enabled>true</enabled>
+            </neuralnetwork>
+         </toolbox>
+      </matlab>
+      <platform>
+         <unix>false</unix>
+         <mac>false</mac>
+         <windows>true</windows>
+         <win2k>false</win2k>
+         <winxp>false</winxp>
+         <vista>false</vista>
+         <linux>false</linux>
+         <solaris>false</solaris>
+         <osver>10.0</osver>
+         <os32>false</os32>
+         <os64>true</os64>
+         <arch>win64</arch>
+         <matlab>true</matlab>
+      </platform>
+  </configuration>
+</deployment-project>
