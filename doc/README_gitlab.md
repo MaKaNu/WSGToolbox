@@ -1,4 +1,5 @@
 # Overview
+[![View WSGtoolbox on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://de.mathworks.com/matlabcentral/fileexchange/89112-wsgtoolbox)
 
 ![word-and-design-mark-logo](/logo/wsg-toolbox_word_and_design_mark.png)
 
