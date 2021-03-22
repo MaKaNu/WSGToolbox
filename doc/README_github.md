@@ -8,11 +8,15 @@
 It is possible to use three different ways to install wsg-toolbox for MATLAB
 
 1. Toolbox installation file
-   1. Download the ```.mtlbx```-File from the wanted version [release page](link_release) or [MATLAB Central](link0_matlab_central).
-   2. [Install the toolbox](link_install_tb) by executing the file with MATLAB
+    1. Download the ```.mtlbx```-File from the wanted version [release page](link_release) or [MATLAB Central](link0_matlab_central).
+    2. [Install the toolbox](link_install_tb) by executing the file with MATLAB
 2. Source installation
-   1. [clone](link_clone) the repository to a user specific directory
-   2. include the path of the repository to the [MATLAB path](link_include_path)
+    1. [clone](link_clone) the repository to a user specific directory
+    2. include the path of the repository to the [MATLAB path](link_include_path)
+3. Install from MATLAB Central:
+    1. Download the toolbox as zip or as Toolbox
+    2. follow either installation from source for zip...
+    3. ... or Toolbox installation
 
 ## Usage
 
@@ -162,8 +166,8 @@ gripper.release(110,70);
 
 @misc{wsg50.2019, title={WSG: A Gripper Class for MATLAB}, author={Kaupenjohann, Matti}, year={2019} }
 
-[link_release]: https://i.imgur.com/OvMZBs9.jpeg
-[link0_matlab_central]: https://i.imgur.com/OvMZBs9.jpeg
+[link_release]: https://github.com/MaKaNu/WSGToolbox/releases
+[link0_matlab_central]: https://de.mathworks.com/matlabcentral/fileexchange/89112-wsgtoolbox
 [link_install_tb]: https://de.mathworks.com/help/matlab/ref/matlab.addons.toolbox.installtoolbox.html
 [link_clone]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
 [link_include_path]: https://de.mathworks.com/help/matlab/ref/path.html
