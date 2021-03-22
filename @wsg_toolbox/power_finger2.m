@@ -1,9 +1,9 @@
 % get syslimits Function
 
 %   Copyright 2020 - 2021 Fachhochschule Dortmund LIT
-%       $Revision: 1.0.0 $
+%       $Revision: 1.0.1 $
 %       $Author: Matti Kaupenjohann $
-%       $Date: 2021/03/21 $
+%       $Date: 2021/03/22 $
 
 function power_finger2(obj, enable)
 if ~islogical(enable)
