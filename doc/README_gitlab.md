@@ -80,3 +80,5 @@ WSG50_IP79  | 172.16.6.79   | 1002
 ## Citing
 
 @misc{wsg50.2019, title={WSG: A Gripper Class for MATLAB}, author={Kaupenjohann, Matti}, year={2019} }
+
+![FHDO](/logo/FhDo-Wortmarke_155x56_RGB.jpg)

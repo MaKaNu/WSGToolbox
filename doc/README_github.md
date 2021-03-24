@@ -1,4 +1,5 @@
 # Overview
+
 [![View WSGtoolbox on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://de.mathworks.com/matlabcentral/fileexchange/89112-wsgtoolbox)
 
 ![word-and-design-mark-logo](/logo/wsg-toolbox_word_and_design_mark.png)
@@ -172,3 +173,5 @@ gripper.release(110,70);
 [link_clone]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
 [link_include_path]: https://de.mathworks.com/help/matlab/ref/path.html
 [link_doc]: https://de.mathworks.com/help/matlab/ref/doc.html
+
+![FHDO](/logo/FhDo-Wortmarke_155x56_RGB.jpg)
